@@ -5,22 +5,22 @@
 
 <header 
     x-data="siteHeader" 
-    :class="{ 'bg-white/95 backdrop-blur-md shadow-soft py-3': scrolled, 'bg-white py-5': !scrolled }"
+    :class="{ 'bg-white/95 backdrop-blur-md shadow-soft py-2.5 sm:py-3': scrolled, 'bg-white py-3 sm:py-5': !scrolled }"
     class="sticky top-0 z-40 w-full transition-all duration-300 border-b border-line"
 >
-    <div class="container-x px-3.5 sm:px-8 lg:px-12 flex items-center justify-between">
+    <div class="container-x px-3 sm:px-8 lg:px-12 flex items-center justify-between">
         <!-- Logo -->
-        <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-4 group shrink-0">
+        <a href="{{ route('home') }}" class="flex items-center gap-2.5 sm:gap-4 group shrink-0">
             <img 
                 src="{{ asset('images/site/crm-logo.png') }}" 
                 alt="Cross Rivers Ministries" 
-                class="h-12 min-[380px]:h-13 sm:h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                class="h-14 min-[380px]:h-16 sm:h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             >
             <div class="block">
-                <span class="block font-display text-[0.6875rem] min-[390px]:text-[0.75rem] sm:text-lg md:text-xl font-normal leading-tight text-brand-500 uppercase tracking-tight sm:tracking-wide whitespace-nowrap">
+                <span class="block font-display text-[0.8125rem] min-[360px]:text-[0.875rem] min-[390px]:text-[0.9375rem] sm:text-lg md:text-xl font-medium leading-tight text-brand-500 uppercase tracking-tight sm:tracking-wide whitespace-nowrap">
                     Cross Rivers Ministries
                 </span>
-                <span class="block text-[0.45rem] min-[390px]:text-[0.5625rem] sm:text-[0.6875rem] font-semibold uppercase tracking-[0.10em] sm:tracking-[0.18em] text-green-600 mt-0.5 whitespace-nowrap">
+                <span class="block text-[0.5625rem] min-[360px]:text-[0.625rem] min-[390px]:text-[0.6875rem] sm:text-[0.6875rem] font-bold uppercase tracking-[0.12em] sm:tracking-[0.18em] text-green-600 mt-0.5 whitespace-nowrap">
                     Helping You Cross Over
                 </span>
             </div>
