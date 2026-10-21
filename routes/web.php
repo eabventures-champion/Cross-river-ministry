@@ -113,6 +113,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
+    // Two-Factor Authentication (2FA) Flow
+    Route::get('/two-factor', [AdminAuthController::class, 'showTwoFactor'])->name('two-factor.show');
+    Route::post('/two-factor', [AdminAuthController::class, 'verifyTwoFactor'])->name('two-factor.verify');
+    Route::post('/two-factor/resend', [AdminAuthController::class, 'resendTwoFactor'])->name('two-factor.resend');
+    Route::post('/two-factor/cancel', [AdminAuthController::class, 'cancelTwoFactor'])->name('two-factor.cancel');
+
     // Public Staff Invitation Accept Flow
     Route::get('/invitations/{token}', [AdminTeamController::class, 'showAcceptInvitation'])->name('invitations.accept');
     Route::post('/invitations/{token}', [AdminTeamController::class, 'processAcceptInvitation'])->name('invitations.process');
@@ -124,6 +130,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile', [AdminProfileController::class, 'update'])->name('profile.update');
         Route::put('/profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.password');
+        Route::put('/profile/two-factor', [AdminProfileController::class, 'toggleTwoFactor'])->name('profile.two-factor');
 
         // Team & Roles Management (Super Admin & Admin with manage_team permission)
         Route::middleware('can.admin:manage_team')->prefix('team')->name('team.')->group(function () {

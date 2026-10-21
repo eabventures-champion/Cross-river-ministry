@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class CrossRiversTest extends TestCase
@@ -103,6 +104,7 @@ class CrossRiversTest extends TestCase
                 'is_admin' => true,
             ]
         );
+        $admin->update(['two_factor_enabled' => false]);
 
         $response = $this->post(route('admin.login.submit'), [
             'email' => 'admin@crossriversministries.org',
@@ -214,5 +216,77 @@ class CrossRiversTest extends TestCase
         // Cleanup
         $newUser->delete();
         $invitation->delete();
+    }
+
+    public function test_admin_login_with_two_factor_authentication(): void
+    {
+        Mail::fake();
+
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.org'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('password123'),
+                'is_admin' => true,
+                'role' => 'super_admin',
+            ]
+        );
+
+        $admin->update([
+            'two_factor_enabled' => true,
+            'two_factor_code' => null,
+            'two_factor_expires_at' => null,
+        ]);
+
+        // 1. Initial login credentials submission redirects to 2FA challenge
+        $response = $this->post(route('admin.login.submit'), [
+            'email' => 'admin@crossriversministries.org',
+            'password' => 'password123',
+        ]);
+
+        $response->assertRedirect(route('admin.two-factor.show'));
+        $this->assertGuest();
+
+        $admin->refresh();
+        $this->assertNotNull($admin->two_factor_code);
+        $this->assertTrue($admin->two_factor_expires_at->isFuture());
+
+        Mail::assertSent(\App\Mail\TwoFactorCodeMail::class, function ($mail) use ($admin) {
+            return $mail->user->id === $admin->id && $mail->code === $admin->two_factor_code;
+        });
+
+        // 2. 2FA view renders properly
+        $twoFactorPage = $this->get(route('admin.two-factor.show'));
+        $twoFactorPage->assertStatus(200);
+        $twoFactorPage->assertSee('Two-Factor Authentication');
+        $twoFactorPage->assertSee('Enter Verification Code');
+
+        // 3. Submitting invalid code fails
+        $invalidResponse = $this->post(route('admin.two-factor.verify'), [
+            'code' => '000000',
+        ]);
+        $invalidResponse->assertSessionHasErrors(['code']);
+        $this->assertGuest();
+
+        // 4. Submitting valid code logs in user
+        $validResponse = $this->post(route('admin.two-factor.verify'), [
+            'code' => $admin->two_factor_code,
+        ]);
+
+        $validResponse->assertRedirect(route('admin.dashboard'));
+        $this->assertAuthenticatedAs($admin);
+
+        // Code should be wiped after use
+        $admin->refresh();
+        $this->assertNull($admin->two_factor_code);
+
+        // 5. Admin can toggle 2FA off from profile
+        $toggleResponse = $this->actingAs($admin)->put(route('admin.profile.two-factor'), [
+            'current_password' => 'password123',
+        ]);
+
+        $toggleResponse->assertRedirect(route('admin.profile.edit'));
+        $admin->refresh();
+        $this->assertFalse($admin->two_factor_enabled);
     }
 }

@@ -30,6 +30,9 @@ class User extends Authenticatable
         'custom_permissions',
         'last_login_at',
         'is_active',
+        'two_factor_enabled',
+        'two_factor_code',
+        'two_factor_expires_at',
     ];
 
     public const ROLES = [
@@ -132,6 +135,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_code',
     ];
 
     /**
@@ -148,6 +152,50 @@ class User extends Authenticatable
             'is_active' => 'boolean',
             'custom_permissions' => 'array',
             'last_login_at' => 'datetime',
+            'two_factor_enabled' => 'boolean',
+            'two_factor_expires_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Generate a fresh 6-digit Two-Factor Authentication code.
+     */
+    public function generateTwoFactorCode(): string
+    {
+        $code = str_pad((string) random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
+
+        $this->update([
+            'two_factor_code' => $code,
+            'two_factor_expires_at' => now()->addMinutes(10),
+        ]);
+
+        return $code;
+    }
+
+    /**
+     * Reset the 2FA code and expiry.
+     */
+    public function resetTwoFactorCode(): void
+    {
+        $this->update([
+            'two_factor_code' => null,
+            'two_factor_expires_at' => null,
+        ]);
+    }
+
+    /**
+     * Check if a supplied 2FA code is valid.
+     */
+    public function isValidTwoFactorCode(?string $code): bool
+    {
+        if (empty($code) || empty($this->two_factor_code) || empty($this->two_factor_expires_at)) {
+            return false;
+        }
+
+        if ($this->two_factor_expires_at->isPast()) {
+            return false;
+        }
+
+        return hash_equals((string) $this->two_factor_code, trim((string) $code));
     }
 }

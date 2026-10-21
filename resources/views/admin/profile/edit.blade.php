@@ -142,5 +142,46 @@
                 </div>
             </form>
         </div>
+
+        <!-- Two-Factor Authentication (2FA) Section -->
+        <div class="bg-white border border-slate-200 rounded-[2px] p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="font-display text-xl font-medium text-ink">Two-Factor Authentication (2FA)</h2>
+                        <span class="text-xs px-2.5 py-0.5 rounded-[2px] font-semibold {{ $user->two_factor_enabled ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-slate-100 text-slate-700 border border-slate-200' }}">
+                            {{ $user->two_factor_enabled ? 'ENABLED' : 'DISABLED' }}
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate mt-1 max-w-xl">
+                        Add an extra layer of security to your admin account. When enabled, signing into Cross Rivers Ministries admin portal will require entering a one-time 6-digit security code sent to <strong>{{ $user->email }}</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <form action="{{ route('admin.profile.two-factor') }}" method="POST" class="space-y-4">
+                @csrf
+                @method('PUT')
+
+                <div class="max-w-md">
+                    <label class="form-label" for="2fa_current_password">Confirm Current Password to {{ $user->two_factor_enabled ? 'Disable' : 'Enable' }} 2FA</label>
+                    <input type="password" 
+                           id="2fa_current_password" 
+                           name="current_password" 
+                           required 
+                           class="form-input mt-1" 
+                           placeholder="Enter your current password">
+                    @error('current_password')
+                        <p class="form-error">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="btn {{ $user->two_factor_enabled ? 'btn-secondary text-red-600 hover:text-red-700' : 'btn-primary' }} px-6 py-2.5">
+                        <span>{{ $user->two_factor_enabled ? 'Disable Two-Factor Authentication' : 'Enable Two-Factor Authentication' }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </x-layouts.admin>

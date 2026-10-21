@@ -36,12 +36,14 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password123'),
                 'is_admin' => true,
                 'role' => 'super_admin',
+                'two_factor_enabled' => true,
                 'avatar' => 'images/site/who-we-are.jpg',
             ]
         );
-        if ($admin->role !== 'super_admin') {
-            $admin->update(['role' => 'super_admin']);
-        }
+        $admin->update([
+            'role' => 'super_admin',
+            'two_factor_enabled' => true,
+        ]);
 
         // 2. Settings initial population from config/crm.php
         foreach (config('crm.groups', []) as $groupKey => $group) {

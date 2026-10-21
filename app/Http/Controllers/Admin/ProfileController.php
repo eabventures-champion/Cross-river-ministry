@@ -60,4 +60,27 @@ class ProfileController extends Controller
 
         return redirect()->route('admin.profile.edit')->with('success', 'Password updated successfully.');
     }
+
+    public function toggleTwoFactor(Request $request): RedirectResponse
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+        ]);
+
+        $newState = ! $user->two_factor_enabled;
+
+        $user->update([
+            'two_factor_enabled' => $newState,
+            'two_factor_code' => null,
+            'two_factor_expires_at' => null,
+        ]);
+
+        $message = $newState
+            ? 'Two-Factor Authentication (2FA) is now ENABLED. You will receive a 6-digit email verification code on your next login.'
+            : 'Two-Factor Authentication (2FA) has been DISABLED for your account.';
+
+        return redirect()->route('admin.profile.edit')->with('success', $message);
+    }
 }
