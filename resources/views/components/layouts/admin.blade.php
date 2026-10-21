@@ -36,7 +36,9 @@
                         @endif
                     </div>
                     <span>{{ auth()->user()->name }}</span>
-                    <span class="text-[0.625rem] bg-brand-800 text-lime-400 px-1.5 py-0.5 rounded-[2px] uppercase font-bold tracking-wider">Admin</span>
+                    <span class="text-[0.625rem] bg-brand-800 text-lime-400 px-1.5 py-0.5 rounded-[2px] uppercase font-bold tracking-wider">
+                        {{ auth()->user()->isSuperAdmin() ? 'Super Admin' : (auth()->user()->roleDetails['label'] ?? 'Admin') }}
+                    </span>
                 </a>
 
                 <span class="text-white/20">|</span>

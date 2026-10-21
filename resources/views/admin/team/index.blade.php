@@ -51,8 +51,8 @@
                                 <div class="flex items-center gap-2">
                                     <span class="font-semibold text-ink">{{ $invite->name ?: 'Invited Member' }}</span>
                                     <span class="text-xs text-slate-500">({{ $invite->email }})</span>
-                                    <span class="text-[0.6875rem] px-2 py-0.5 rounded-[2px] font-semibold border {{ $roles[$invite->role]['badge'] ?? 'bg-slate-100 text-slate-800' }}">
-                                        {{ $roles[$invite->role]['label'] ?? $invite->role }}
+                                    <span class="text-[0.6875rem] px-2 py-0.5 rounded-[2px] font-semibold border {{ $invite->roleDetails['badge'] ?? 'bg-slate-100 text-slate-800' }}">
+                                        {{ $invite->roleDetails['label'] ?? ucfirst($invite->role ?? 'Member') }}
                                     </span>
                                 </div>
                                 <div class="text-xs text-muted mt-1 flex items-center gap-2">
@@ -137,8 +137,8 @@
                                 </td>
 
                                 <td class="py-4 px-3">
-                                    <span class="inline-block text-[0.6875rem] px-2.5 py-0.5 rounded-[2px] font-semibold border {{ $roles[$user->role]['badge'] ?? 'bg-slate-100 text-slate-800' }}">
-                                        {{ $roles[$user->role]['label'] ?? ucfirst($user->role) }}
+                                    <span class="inline-block text-[0.6875rem] px-2.5 py-0.5 rounded-[2px] font-semibold border {{ $user->roleDetails['badge'] ?? 'bg-slate-100 text-slate-800' }}">
+                                        {{ $user->roleDetails['label'] ?? ucfirst($user->role ?? 'Member') }}
                                     </span>
                                     @if($user->title)
                                         <span class="text-[0.6875rem] text-slate-400 block mt-0.5">{{ $user->title }}</span>

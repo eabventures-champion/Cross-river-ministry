@@ -42,6 +42,15 @@ class AdminInvitation extends Model
         });
     }
 
+    public function getRoleDetailsAttribute(): array
+    {
+        return User::ROLES[$this->role] ?? [
+            'label' => ucfirst($this->role ?? 'Member'),
+            'badge' => 'bg-slate-100 text-slate-800 border-slate-200',
+            'description' => '',
+        ];
+    }
+
     public function inviter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'invited_by');

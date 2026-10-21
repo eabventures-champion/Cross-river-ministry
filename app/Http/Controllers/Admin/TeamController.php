@@ -21,7 +21,7 @@ class TeamController extends Controller
     public function index(): View
     {
         $users = User::where('is_admin', true)
-            ->orderByRaw("FIELD(role, 'super_admin', 'admin', 'editor', 'coach')")
+            ->orderByRaw("CASE role WHEN 'super_admin' THEN 1 WHEN 'admin' THEN 2 WHEN 'editor' THEN 3 WHEN 'coach' THEN 4 ELSE 5 END")
             ->orderBy('name')
             ->get();
 
