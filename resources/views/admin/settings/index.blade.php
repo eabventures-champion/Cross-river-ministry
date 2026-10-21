@@ -6,16 +6,16 @@
         </div>
 
         <!-- Group Selector Tabs -->
-        <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+        <div class="flex items-center gap-1.5 sm:gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar py-1">
             @foreach($groups as $k => $grp)
-                <a href="{{ route('admin.settings.index', $k) }}" class="px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-[2px] {{ $currentGroupKey === $k ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100' }}">
+                <a href="{{ route('admin.settings.index', $k) }}" class="px-3.5 sm:px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-[2px] shrink-0 whitespace-nowrap {{ $currentGroupKey === $k ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100' }}">
                     {{ $grp['label'] }}
                 </a>
             @endforeach
         </div>
 
         <!-- Settings Form -->
-        <form action="{{ route('admin.settings.update', $currentGroupKey) }}" method="POST" enctype="multipart/form-data" class="bg-white p-8 border border-slate-200 rounded-[2px] shadow-sm space-y-6">
+        <form action="{{ route('admin.settings.update', $currentGroupKey) }}" method="POST" enctype="multipart/form-data" class="bg-white p-4 sm:p-8 border border-slate-200 rounded-[2px] shadow-sm space-y-6">
             @csrf
 
             @foreach($currentGroup['fields'] as $fieldKey => $config)

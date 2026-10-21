@@ -1,17 +1,17 @@
 <x-layouts.admin title="Inquiries & Messages">
     <div class="space-y-6">
         <div>
-            <h1 class="font-display text-3xl font-light text-ink">Inquiries & Contact Submissions</h1>
+            <h1 class="font-display text-2xl sm:text-3xl font-light text-ink">Inquiries & Contact Submissions</h1>
             <p class="text-xs text-slate">Submissions from the general contact form and consulting/speaking requests.</p>
         </div>
 
-        <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
-            <a href="{{ route('admin.inbox.index') }}" class="px-3 py-1.5 text-xs font-semibold rounded-[2px] {{ !request('type') ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100' }}">All Messages</a>
-            <a href="{{ route('admin.inbox.index', ['type' => 'contact']) }}" class="px-3 py-1.5 text-xs font-semibold rounded-[2px] {{ request('type') === 'contact' ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100' }}">Contact Form</a>
-            <a href="{{ route('admin.inbox.index', ['type' => 'consulting']) }}" class="px-3 py-1.5 text-xs font-semibold rounded-[2px] {{ request('type') === 'consulting' ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100' }}">Speaking / Consulting</a>
+        <div class="flex items-center gap-1.5 sm:gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar py-1">
+            <a href="{{ route('admin.inbox.index') }}" class="px-3 py-1.5 text-xs font-semibold rounded-[2px] shrink-0 whitespace-nowrap {{ !request('type') ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100' }}">All Messages</a>
+            <a href="{{ route('admin.inbox.index', ['type' => 'contact']) }}" class="px-3 py-1.5 text-xs font-semibold rounded-[2px] shrink-0 whitespace-nowrap {{ request('type') === 'contact' ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100' }}">Contact Form</a>
+            <a href="{{ route('admin.inbox.index', ['type' => 'consulting']) }}" class="px-3 py-1.5 text-xs font-semibold rounded-[2px] shrink-0 whitespace-nowrap {{ request('type') === 'consulting' ? 'bg-brand-500 text-white' : 'text-slate-600 hover:bg-slate-100' }}">Speaking / Consulting</a>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-[2px] overflow-hidden shadow-sm">
+        <div class="bg-white border border-slate-200 rounded-[2px] overflow-x-auto shadow-sm">
             <table class="w-full text-left text-sm text-slate-600">
                 <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase font-semibold text-slate-500">
                     <tr>

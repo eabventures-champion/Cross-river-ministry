@@ -1,11 +1,11 @@
 <x-layouts.admin title="Video Library">
     <div class="space-y-6">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-                <h1 class="font-display text-3xl font-light text-ink">Video Library</h1>
+                <h1 class="font-display text-2xl sm:text-3xl font-light text-ink">Video Library</h1>
                 <p class="text-xs text-slate">Manage video sermons, video coaching sessions, and masterclass streams.</p>
             </div>
-            <a href="{{ route('admin.videos.create') }}" class="btn btn-primary btn-sm flex items-center gap-1.5">
+            <a href="{{ route('admin.videos.create') }}" class="btn btn-primary btn-sm flex items-center gap-1.5 self-start sm:self-auto">
                 <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -13,7 +13,7 @@
             </a>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-[2px] overflow-hidden shadow-sm">
+        <div class="bg-white border border-slate-200 rounded-[2px] overflow-x-auto shadow-sm">
             <table class="w-full text-left text-sm text-slate-600">
                 <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase font-semibold text-slate-500">
                     <tr>
