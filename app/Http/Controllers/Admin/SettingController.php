@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class SettingController extends Controller
 {
-    public function index(string $group = 'general', SettingsService $settings): View
+    public function index(SettingsService $settings, string $group = 'general'): View
     {
         $groups = config('crm.groups', []);
         abort_unless(array_key_exists($group, $groups), 404);

@@ -35,9 +35,13 @@ class DatabaseSeeder extends Seeder
                 'bio' => 'Jane Audrey is a seasoned life coach, former clinical nurse educator, and founder of Cross Rivers Ministries. She has dedicated her life to helping individuals, families, and organizations experience God\'s restoration and purpose in the here and now.',
                 'password' => Hash::make('password123'),
                 'is_admin' => true,
+                'role' => 'super_admin',
                 'avatar' => 'images/site/who-we-are.jpg',
             ]
         );
+        if ($admin->role !== 'super_admin') {
+            $admin->update(['role' => 'super_admin']);
+        }
 
         // 2. Settings initial population from config/crm.php
         foreach (config('crm.groups', []) as $groupKey => $group) {

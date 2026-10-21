@@ -98,8 +98,8 @@ class User extends Authenticatable
         }
 
         // Custom individual override
-        if (is_array($this->custom_permissions) && array_key_exists($permission, $this->custom_permissions)) {
-            return (bool) $this->custom_permissions[$permission];
+        if (is_array($this->custom_permissions) && ! empty($this->custom_permissions)) {
+            return (bool) ($this->custom_permissions[$permission] ?? false);
         }
 
         // Default role mapping
