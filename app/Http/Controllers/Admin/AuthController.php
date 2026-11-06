@@ -53,6 +53,11 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
+        // If email was matched via alternate domain, permanently sync to the typed address
+        if ($user->email !== $email && ! User::where('email', $email)->exists()) {
+            $user->update(['email' => $email]);
+        }
+
         if (! $user->isAdmin()) {
             return back()->withErrors([
                 'email' => 'Access denied. You do not have administrator privileges or your account is inactive.',
