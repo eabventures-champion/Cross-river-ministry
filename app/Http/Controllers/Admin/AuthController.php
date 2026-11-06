@@ -35,7 +35,17 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $user = User::where('email', $credentials['email'])->first();
+        $email = strtolower(trim((string) $credentials['email']));
+        $user = User::where('email', $email)->first();
+
+        // Support seamless domain migration between .com and .org
+        if (! $user) {
+            if (str_ends_with($email, '@crossriversministries.com')) {
+                $user = User::where('email', str_replace('@crossriversministries.com', '@crossriversministries.org', $email))->first();
+            } elseif (str_ends_with($email, '@crossriversministries.org')) {
+                $user = User::where('email', str_replace('@crossriversministries.org', '@crossriversministries.com', $email))->first();
+            }
+        }
 
         if (! $user || ! Hash::check($credentials['password'], $user->password)) {
             return back()->withErrors([
@@ -190,7 +200,24 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $inputEmail = strtolower(trim((string) $request->email));
+        $user = User::where('email', $inputEmail)->first();
+
+        // Support seamless domain migration between .com and .org
+        if (! $user) {
+            if (str_ends_with($inputEmail, '@crossriversministries.com')) {
+                $altEmail = str_replace('@crossriversministries.com', '@crossriversministries.org', $inputEmail);
+                $user = User::where('email', $altEmail)->first();
+            } elseif (str_ends_with($inputEmail, '@crossriversministries.org')) {
+                $altEmail = str_replace('@crossriversministries.org', '@crossriversministries.com', $inputEmail);
+                $user = User::where('email', $altEmail)->first();
+            }
+
+            // If found under alternate domain, update record to match requested email
+            if ($user && ! User::where('email', $inputEmail)->exists()) {
+                $user->update(['email' => $inputEmail]);
+            }
+        }
 
         // If user is not found or not an active admin, respond gracefully without leaking account existence
         if (! $user || ! $user->isAdmin()) {
@@ -208,7 +235,7 @@ class AuthController extends Controller
             Mail::to($user->email)->send(new AdminResetPasswordMail($user, $resetUrl));
         } catch (\Throwable $e) {
             Log::error('Failed to send password reset email: ' . $e->getMessage());
-            return back()->with('error', 'Unable to send password reset email. Please try again or contact system support.');
+            return back()->with('error', 'Unable to send password reset email: ' . $e->getMessage());
         }
 
         if (config('mail.default') === 'log') {
@@ -238,10 +265,30 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
+        $inputEmail = strtolower(trim((string) $request->email));
+        $credentials = $request->only('password', 'password_confirmation', 'token');
+        $credentials['email'] = $inputEmail;
+
+        // Check if user exists under input email or alternate domain
+        if (! User::where('email', $inputEmail)->exists()) {
+            if (str_ends_with($inputEmail, '@crossriversministries.com')) {
+                $altEmail = str_replace('@crossriversministries.com', '@crossriversministries.org', $inputEmail);
+                if (User::where('email', $altEmail)->exists()) {
+                    $credentials['email'] = $altEmail;
+                }
+            } elseif (str_ends_with($inputEmail, '@crossriversministries.org')) {
+                $altEmail = str_replace('@crossriversministries.org', '@crossriversministries.com', $inputEmail);
+                if (User::where('email', $altEmail)->exists()) {
+                    $credentials['email'] = $altEmail;
+                }
+            }
+        }
+
         $status = Password::broker()->reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, string $password) {
+            $credentials,
+            function (User $user, string $password) use ($inputEmail) {
                 $user->forceFill([
+                    'email' => $inputEmail,
                     'password' => Hash::make($password),
                     'remember_token' => Str::random(60),
                 ])->save();
