@@ -16,6 +16,33 @@
             <p class="text-xs text-slate">Enter your administrator credentials to manage Cross Rivers Ministries</p>
         </div>
 
+        @if(session('success'))
+            <div class="p-3 bg-green-50 border border-green-200 text-green-700 text-xs rounded-[2px] flex items-center gap-2">
+                <svg class="size-4 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if(session('status'))
+            <div class="p-3 bg-brand-50 border border-brand-200 text-brand-700 text-xs rounded-[2px] flex items-center gap-2">
+                <svg class="size-4 shrink-0 text-brand-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/>
+                </svg>
+                <span>{{ session('status') }}</span>
+            </div>
+        @endif
+
+        @if(session('info'))
+            <div class="p-3 bg-brand-50 border border-brand-200 text-brand-700 text-xs rounded-[2px] flex items-center gap-2">
+                <svg class="size-4 shrink-0 text-brand-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/>
+                </svg>
+                <span>{{ session('info') }}</span>
+            </div>
+        @endif
+
         @if(session('error'))
             <div class="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-[2px]">
                 {{ session('error') }}
@@ -33,6 +60,9 @@
             <div x-data="{ show: false }">
                 <div class="flex items-center justify-between">
                     <label class="form-label mb-0" for="password">Password</label>
+                    <a href="{{ route('admin.password.request') }}" class="text-xs font-semibold text-brand-600 hover:text-brand-700 hover:underline transition-colors">
+                        Forgot password?
+                    </a>
                 </div>
                 <div class="relative mt-2">
                     <input :type="show ? 'text' : 'password'"

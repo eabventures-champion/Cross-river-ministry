@@ -27,6 +27,7 @@ class CrossRiversTest extends TestCase
             '/contact',
             '/sitemap.xml',
             '/admin/login',
+            '/admin/forgot-password',
         ];
 
         foreach ($routes as $route) {
@@ -288,5 +289,56 @@ class CrossRiversTest extends TestCase
         $toggleResponse->assertRedirect(route('admin.profile.edit'));
         $admin->refresh();
         $this->assertFalse($admin->two_factor_enabled);
+    }
+
+    public function test_admin_forgot_password_and_reset_flow(): void
+    {
+        Mail::fake();
+
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.org'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('oldpassword123'),
+                'is_admin' => true,
+                'role' => 'super_admin',
+            ]
+        );
+
+        // 1. Forgot password form renders properly
+        $response = $this->get(route('admin.password.request'));
+        $response->assertStatus(200);
+        $response->assertSee('Reset Password');
+        $response->assertSee('Administrator Email Address');
+
+        // 2. Requesting reset link dispatches reset email
+        $postResponse = $this->post(route('admin.password.email'), [
+            'email' => 'admin@crossriversministries.org',
+        ]);
+        $postResponse->assertSessionHas('status');
+
+        Mail::assertSent(\App\Mail\AdminResetPasswordMail::class, function ($mail) use ($admin) {
+            return $mail->user->id === $admin->id && ! empty($mail->resetUrl);
+        });
+
+        // 3. Reset password page loads with token
+        $token = \Illuminate\Support\Facades\Password::broker()->createToken($admin);
+        $resetPage = $this->get(route('admin.password.reset', ['token' => $token, 'email' => $admin->email]));
+        $resetPage->assertStatus(200);
+        $resetPage->assertSee('Set New Password');
+
+        // 4. Submitting password reset changes password and redirects to login
+        $updateResponse = $this->post(route('admin.password.update'), [
+            'token' => $token,
+            'email' => $admin->email,
+            'password' => 'newpassword123',
+            'password_confirmation' => 'newpassword123',
+        ]);
+
+        $updateResponse->assertRedirect(route('admin.login'));
+        $updateResponse->assertSessionHas('success');
+
+        $admin->refresh();
+        $this->assertTrue(\Illuminate\Support\Facades\Hash::check('newpassword123', $admin->password));
     }
 }

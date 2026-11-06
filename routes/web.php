@@ -107,11 +107,19 @@ Route::get('/robots.txt', function () {
 */
 
 Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
+Route::get('/forgot-password', [AdminAuthController::class, 'showForgotPassword']);
+Route::get('/reset-password/{token}', [AdminAuthController::class, 'showResetPassword'])->name('password.reset');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+    // Password Reset Flow
+    Route::get('/forgot-password', [AdminAuthController::class, 'showForgotPassword'])->name('password.request');
+    Route::post('/forgot-password', [AdminAuthController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [AdminAuthController::class, 'showResetPassword'])->name('password.reset');
+    Route::post('/reset-password', [AdminAuthController::class, 'resetPassword'])->name('password.update');
 
     // Two-Factor Authentication (2FA) Flow
     Route::get('/two-factor', [AdminAuthController::class, 'showTwoFactor'])->name('two-factor.show');

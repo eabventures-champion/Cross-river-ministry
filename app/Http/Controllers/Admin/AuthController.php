@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdminResetPasswordMail;
 use App\Mail\TwoFactorCodeMail;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class AuthController extends Controller
@@ -91,7 +95,7 @@ class AuthController extends Controller
 
         return view('admin.auth.two-factor', [
             'user' => $user,
-            'debugCode' => (config('app.debug') || config('mail.default') === 'log') ? $user->two_factor_code : null,
+            'debugCode' => (config('mail.default') === 'log') ? $user->two_factor_code : null,
         ]);
     }
 
@@ -169,5 +173,89 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('admin.login')->with('info', 'You have been logged out.');
+    }
+
+    public function showForgotPassword(): View|RedirectResponse
+    {
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return view('admin.auth.forgot-password');
+    }
+
+    public function sendResetLinkEmail(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        // If user is not found or not an active admin, respond gracefully without leaking account existence
+        if (! $user || ! $user->isAdmin()) {
+            return back()->with('status', 'If an administrator account exists for that email, a password reset link has been dispatched.');
+        }
+
+        // Generate standard token using Laravel's password broker
+        $token = Password::broker()->createToken($user);
+        $resetUrl = route('admin.password.reset', [
+            'token' => $token,
+            'email' => $user->email,
+        ]);
+
+        try {
+            Mail::to($user->email)->send(new AdminResetPasswordMail($user, $resetUrl));
+        } catch (\Throwable $e) {
+            Log::error('Failed to send password reset email: ' . $e->getMessage());
+            return back()->with('error', 'Unable to send password reset email. Please try again or contact system support.');
+        }
+
+        if (config('mail.default') === 'log') {
+            session()->flash('debugResetUrl', $resetUrl);
+        }
+
+        return back()->with('status', 'A password reset link has been dispatched to your email address.');
+    }
+
+    public function showResetPassword(Request $request, string $token): View|RedirectResponse
+    {
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return view('admin.auth.reset-password', [
+            'token' => $token,
+            'email' => $request->query('email'),
+        ]);
+    }
+
+    public function resetPassword(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $status = Password::broker()->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect()->route('admin.login')->with('success', 'Your password has been successfully reset! You can now log in with your new credentials.');
+        }
+
+        return back()
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => __($status)]);
     }
 }
