@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
     {
         // 1. Admin User
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crossriversministries.org'],
+            ['email' => 'admin@crossriversministries.com'],
             [
                 'name' => 'Jane Audrey',
                 'title' => 'Founder & Lead Spiritual Life Coach',

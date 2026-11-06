@@ -135,7 +135,7 @@ class TeamController extends Controller
         ]);
 
         // Protect primary admin or last super admin
-        if ($user->email === 'admin@crossriversministries.org' && $request->role !== 'super_admin') {
+        if ($user->email === 'admin@crossriversministries.com' && $request->role !== 'super_admin') {
             return back()->with('error', 'The primary founding administrator role cannot be downgraded.');
         }
 
@@ -155,7 +155,7 @@ class TeamController extends Controller
             return back()->with('error', 'You cannot deactivate your own account.');
         }
 
-        if ($user->email === 'admin@crossriversministries.org') {
+        if ($user->email === 'admin@crossriversministries.com') {
             return back()->with('error', 'The primary ministry founder account cannot be deactivated.');
         }
 
@@ -171,7 +171,7 @@ class TeamController extends Controller
             return back()->with('error', 'You cannot remove your own administrator account.');
         }
 
-        if ($user->email === 'admin@crossriversministries.org') {
+        if ($user->email === 'admin@crossriversministries.com') {
             return back()->with('error', 'The founding administrator cannot be removed.');
         }
 

@@ -53,7 +53,7 @@
             @csrf
             <div>
                 <label class="form-label">Email Address</label>
-                <input type="email" name="email" required autofocus class="form-input" value="{{ old('email', 'admin@crossriversministries.org') }}">
+                <input type="email" name="email" required autofocus class="form-input" value="{{ old('email', 'admin@crossriversministries.com') }}">
                 @error('email')<p class="form-error">{{ $message }}</p>@enderror
             </div>
 

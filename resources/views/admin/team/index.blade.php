@@ -181,7 +181,7 @@
                                             Edit
                                         </a>
 
-                                        @if($user->id !== auth()->id() && $user->email !== 'admin@crossriversministries.org')
+                                        @if($user->id !== auth()->id() && $user->email !== 'admin@crossriversministries.com')
                                             <span class="text-slate-200">|</span>
                                             <form action="{{ route('admin.team.status', $user) }}" method="POST">
                                                 @csrf

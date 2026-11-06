@@ -45,7 +45,7 @@ class CrossRiversTest extends TestCase
     public function test_authenticated_admin_can_access_dashboard(): void
     {
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crossriversministries.org'],
+            ['email' => 'admin@crossriversministries.com'],
             [
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
@@ -60,7 +60,7 @@ class CrossRiversTest extends TestCase
     public function test_all_admin_management_pages_load_successfully(): void
     {
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crossriversministries.org'],
+            ['email' => 'admin@crossriversministries.com'],
             [
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
@@ -98,7 +98,7 @@ class CrossRiversTest extends TestCase
     public function test_admin_login_with_remember_me_sets_cookie(): void
     {
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crossriversministries.org'],
+            ['email' => 'admin@crossriversministries.com'],
             [
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
@@ -108,7 +108,7 @@ class CrossRiversTest extends TestCase
         $admin->update(['two_factor_enabled' => false]);
 
         $response = $this->post(route('admin.login.submit'), [
-            'email' => 'admin@crossriversministries.org',
+            'email' => 'admin@crossriversministries.com',
             'password' => 'password123',
             'remember' => '1',
         ]);
@@ -125,7 +125,7 @@ class CrossRiversTest extends TestCase
     public function test_authenticated_admin_can_view_and_update_profile(): void
     {
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crossriversministries.org'],
+            ['email' => 'admin@crossriversministries.com'],
             [
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
@@ -142,7 +142,7 @@ class CrossRiversTest extends TestCase
         // Can update profile info
         $updateResponse = $this->actingAs($admin)->put(route('admin.profile.update'), [
             'name' => 'Jane Audrey Updated',
-            'email' => 'admin@crossriversministries.org',
+            'email' => 'admin@crossriversministries.com',
             'title' => 'Founder & Lead Coach',
             'bio' => 'Serving purpose-driven individuals.',
         ]);
@@ -159,7 +159,7 @@ class CrossRiversTest extends TestCase
     public function test_super_admin_can_invite_member_and_invitee_can_accept(): void
     {
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crossriversministries.org'],
+            ['email' => 'admin@crossriversministries.com'],
             [
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
@@ -224,7 +224,7 @@ class CrossRiversTest extends TestCase
         Mail::fake();
 
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crossriversministries.org'],
+            ['email' => 'admin@crossriversministries.com'],
             [
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
@@ -241,7 +241,7 @@ class CrossRiversTest extends TestCase
 
         // 1. Initial login credentials submission redirects to 2FA challenge
         $response = $this->post(route('admin.login.submit'), [
-            'email' => 'admin@crossriversministries.org',
+            'email' => 'admin@crossriversministries.com',
             'password' => 'password123',
         ]);
 
@@ -296,7 +296,7 @@ class CrossRiversTest extends TestCase
         Mail::fake();
 
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crossriversministries.org'],
+            ['email' => 'admin@crossriversministries.com'],
             [
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('oldpassword123'),
@@ -313,7 +313,7 @@ class CrossRiversTest extends TestCase
 
         // 2. Requesting reset link dispatches reset email
         $postResponse = $this->post(route('admin.password.email'), [
-            'email' => 'admin@crossriversministries.org',
+            'email' => 'admin@crossriversministries.com',
         ]);
         $postResponse->assertSessionHas('status');
 

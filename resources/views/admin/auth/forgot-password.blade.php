@@ -59,8 +59,8 @@
                     required 
                     autofocus 
                     class="form-input" 
-                    placeholder="admin@crossriversministries.org" 
-                    value="{{ old('email', request('email', 'admin@crossriversministries.org')) }}">
+                    placeholder="admin@crossriversministries.com" 
+                    value="{{ old('email', request('email', 'admin@crossriversministries.com')) }}">
                 @error('email')<p class="form-error">{{ $message }}</p>@enderror
             </div>
 
