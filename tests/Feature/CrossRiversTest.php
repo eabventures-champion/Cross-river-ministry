@@ -498,6 +498,12 @@ class CrossRiversTest extends TestCase
             'role' => 'super_admin',
         ]);
 
+        $createPage = $this->actingAs($admin)->get(route('admin.products.create'));
+        $createPage->assertStatus(200);
+        $createPage->assertSee('x-data="productForm()"', false);
+        $createPage->assertSee('function productForm()', false);
+        $createPage->assertDontSee('c.id !== id); if (String(this.selectedCategoryId)');
+
         $customCatName = 'Dynamic Apparel ' . rand(100, 999);
         $response = $this->actingAs($admin)->post(route('admin.products.store'), [
             'name' => 'Custom Dynamic Tee ' . rand(100, 999),

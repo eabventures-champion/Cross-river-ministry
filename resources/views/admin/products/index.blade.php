@@ -1,62 +1,5 @@
 <x-layouts.admin title="Store Products">
-    <div class="space-y-6" x-data="{ 
-        showDeleteAllModal: false, 
-        confirmed: false, 
-        showImportModal: false,
-        showCategoryManager: false,
-        categoryDeleteMessage: '',
-        categoryDeleteError: '',
-        deletingCategoryId: null,
-        categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'products_count' => $c->products_count ?? 0])) }},
-        viewImageModal: false,
-        previewImage: '',
-        previewTitle: '',
-        previewSku: '',
-        previewCategory: '',
-        previewPrice: '',
-        openImage(img, title, sku, cat, price) {
-            if (!img) return;
-            this.previewImage = img;
-            this.previewTitle = title;
-            this.previewSku = sku;
-            this.previewCategory = cat;
-            this.previewPrice = price;
-            this.viewImageModal = true;
-        },
-        async deleteCategory(id, name, count) {
-            const confirmMsg = count > 0 
-                ? `Category '${name}' is assigned to ${count} product(s).\n\nDeleting it will unlink these products (they will become uncategorized), but will NOT delete the products.\n\nAre you sure you want to remove this category?`
-                : `Are you sure you want to remove category '${name}'?`;
-            if (!confirm(confirmMsg)) return;
-
-            this.deletingCategoryId = id;
-            this.categoryDeleteMessage = '';
-            this.categoryDeleteError = '';
-
-            try {
-                const res = await fetch(`{{ url('admin/products/categories') }}/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const data = await res.json();
-                if (data.success) {
-                    this.categories = this.categories.filter(c => c.id !== id);
-                    this.categoryDeleteMessage = `Category '${name}' removed successfully.`;
-                    setTimeout(() => this.categoryDeleteMessage = '', 3500);
-                } else {
-                    this.categoryDeleteError = data.message || 'Failed to remove category.';
-                }
-            } catch (err) {
-                this.categoryDeleteError = 'An error occurred while deleting category.';
-            } finally {
-                this.deletingCategoryId = null;
-            }
-        }
-    }">
+    <div class="space-y-6" x-data="productsIndex()">
         <!-- Header -->
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-slate-100">
             <div>
@@ -749,4 +692,67 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function productsIndex() {
+            return {
+                showDeleteAllModal: false,
+                confirmed: false,
+                showImportModal: false,
+                showCategoryManager: false,
+                categoryDeleteMessage: '',
+                categoryDeleteError: '',
+                deletingCategoryId: null,
+                categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'products_count' => $c->products_count ?? 0])) }},
+                viewImageModal: false,
+                previewImage: '',
+                previewTitle: '',
+                previewSku: '',
+                previewCategory: '',
+                previewPrice: '',
+                openImage(img, title, sku, cat, price) {
+                    if (!img) return;
+                    this.previewImage = img;
+                    this.previewTitle = title;
+                    this.previewSku = sku;
+                    this.previewCategory = cat;
+                    this.previewPrice = price;
+                    this.viewImageModal = true;
+                },
+                async deleteCategory(id, name, count) {
+                    const confirmMsg = count > 0 
+                        ? `Category '${name}' is assigned to ${count} product(s).\n\nDeleting it will unlink these products (they will become uncategorized), but will NOT delete the products.\n\nAre you sure you want to remove this category?`
+                        : `Are you sure you want to remove category '${name}'?`;
+                    if (!confirm(confirmMsg)) return;
+
+                    this.deletingCategoryId = id;
+                    this.categoryDeleteMessage = '';
+                    this.categoryDeleteError = '';
+
+                    try {
+                        const res = await fetch(`{{ url('admin/products/categories') }}/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            this.categories = this.categories.filter(c => c.id !== id);
+                            this.categoryDeleteMessage = `Category '${name}' removed successfully.`;
+                            setTimeout(() => this.categoryDeleteMessage = '', 3500);
+                        } else {
+                            this.categoryDeleteError = data.message || 'Failed to remove category.';
+                        }
+                    } catch (err) {
+                        this.categoryDeleteError = 'An error occurred while deleting category.';
+                    } finally {
+                        this.deletingCategoryId = null;
+                    }
+                }
+            };
+        }
+    </script>
 </x-layouts.admin>

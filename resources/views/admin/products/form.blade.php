@@ -15,153 +15,7 @@
         <form action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}"
               method="POST"
               enctype="multipart/form-data"
-              x-data="{
-                  showImageModal: false,
-                  showCategoryManager: false,
-                  categoryDeleteMessage: '',
-                  categoryDeleteError: '',
-                  deletingCategoryId: null,
-                  isNew: {{ $product->exists ? 'false' : 'true' }},
-                  name: {{ Js::from(old('name', $product->name ?? '')) }},
-                  sku: {{ Js::from(old('sku', $product->sku ?? '')) }},
-                  customSku: {{ old('sku') || ($product->exists && $product->sku) ? 'true' : 'false' }},
-                  categoryMode: '{{ old('new_category') ? 'input' : 'select' }}',
-                  newCategory: '{{ old('new_category', '') }}',
-                  categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'products_count' => $c->products_count ?? 0])) }},
-                  selectedCategoryId: '{{ old('product_category_id', old('category_id', $product->product_category_id)) }}',
-                  savingCategory: false,
-                  quickAddMessage: '',
-
-                  getCategoryName() {
-                      if (this.categoryMode === 'input') {
-                          return this.newCategory.trim();
-                      }
-                      const found = this.categories.find(c => String(c.id) === String(this.selectedCategoryId));
-                      return found ? found.name : '';
-                  },
-
-                  generateSku(name, categoryName) {
-                      if (!name || !name.trim()) return '';
-                      const clean = name.replace(/[^a-zA-Z0-9\s]/g, '').trim();
-                      const words = clean.split(/\s+/).filter(Boolean);
-                      if (words.length === 0) return 'ITEM';
-
-                      let code = 'ITEM';
-                      if (words.length === 1) {
-                          code = words[0].substring(0, 4).toUpperCase();
-                      } else if (words.length === 2) {
-                          code = (words[0].substring(0, 3) + words[1].substring(0, 2)).toUpperCase();
-                      } else {
-                          let acronym = '';
-                          for (let i = 0; i < words.length; i++) {
-                              acronym += words[i][0];
-                          }
-                          code = acronym.substring(0, 5).toUpperCase();
-                      }
-
-                      code = code.replace(/-+$/, '');
-                      if (code.length < 3) {
-                          code = code.padEnd(3, 'X');
-                      }
-
-                      let catCode = '';
-                      const catUpper = (categoryName || '').toUpperCase();
-                      if (catUpper.includes('TEE')) catCode = 'TEE';
-                      else if (catUpper.includes('MUG')) catCode = 'MUG';
-                      else if (catUpper.includes('BOOK')) catCode = 'BOK';
-
-                      return catCode ? `CRM-${catCode}-${code}` : `CRM-${code}`;
-                  },
-
-                  onNameChange() {
-                      if (this.isNew && !this.customSku) {
-                          this.sku = this.generateSku(this.name, this.getCategoryName());
-                      }
-                  },
-
-                  onCategoryChange() {
-                      if (this.isNew && !this.customSku) {
-                          this.sku = this.generateSku(this.name, this.getCategoryName());
-                      }
-                  },
-
-                  autoGenerateSku() {
-                      this.customSku = false;
-                      this.sku = this.generateSku(this.name, this.getCategoryName());
-                  },
-
-                  async quickCreateCategory() {
-                      const catName = this.newCategory.trim();
-                      if (!catName) return;
-                      this.savingCategory = true;
-                      this.quickAddMessage = '';
-                      try {
-                          const res = await fetch('{{ route('admin.products.categories.quick-store') }}', {
-                              method: 'POST',
-                              headers: {
-                                  'Content-Type': 'application/json',
-                                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                  'Accept': 'application/json'
-                              },
-                              body: JSON.stringify({ name: catName })
-                          });
-                          const data = await res.json();
-                          if (data.success && data.category) {
-                              if (!this.categories.some(c => c.id === data.category.id)) {
-                                  this.categories.push(data.category);
-                              }
-                              this.selectedCategoryId = data.category.id;
-                              this.newCategory = '';
-                              this.categoryMode = 'select';
-                              this.quickAddMessage = 'Category created and selected!';
-                              this.onCategoryChange();
-                              setTimeout(() => this.quickAddMessage = '', 3000);
-                          }
-                      } catch (e) {
-                          console.error(e);
-                      } finally {
-                          this.savingCategory = false;
-                      }
-                  },
-
-                  async deleteCategory(id, name, count) {
-                      const confirmMsg = count > 0 
-                          ? `Category "${name}" is assigned to ${count} product(s).\n\nDeleting it will unlink these products (they will become uncategorized), but will NOT delete the products.\n\nAre you sure you want to remove this category?`
-                          : `Are you sure you want to remove category "${name}"?`;
-                      if (!confirm(confirmMsg)) return;
-
-                      this.deletingCategoryId = id;
-                      this.categoryDeleteMessage = '';
-                      this.categoryDeleteError = '';
-
-                      try {
-                          const res = await fetch(`{{ url('admin/products/categories') }}/${id}`, {
-                              method: 'DELETE',
-                              headers: {
-                                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                  'Accept': 'application/json',
-                                  'Content-Type': 'application/json'
-                              }
-                          });
-                          const data = await res.json();
-                          if (data.success) {
-                              this.categories = this.categories.filter(c => c.id !== id);
-                              if (String(this.selectedCategoryId) === String(id)) {
-                                  this.selectedCategoryId = '';
-                                  this.onCategoryChange();
-                              }
-                              this.categoryDeleteMessage = `Category "${name}" removed successfully.`;
-                              setTimeout(() => this.categoryDeleteMessage = '', 3500);
-                          } else {
-                              this.categoryDeleteError = data.message || 'Failed to remove category.';
-                          }
-                      } catch (err) {
-                          this.categoryDeleteError = 'An error occurred while deleting category.';
-                      } finally {
-                          this.deletingCategoryId = null;
-                      }
-                  }
-              }"
+              x-data="productForm()"
               class="bg-white border border-slate-200 rounded-[2px] p-6 space-y-5">
             @csrf
             @if($product->exists)
@@ -556,4 +410,156 @@
             </div>
         </form>
     </div>
+
+    <script>
+        function productForm() {
+            return {
+                showImageModal: false,
+                showCategoryManager: false,
+                categoryDeleteMessage: '',
+                categoryDeleteError: '',
+                deletingCategoryId: null,
+                isNew: {{ $product->exists ? 'false' : 'true' }},
+                name: {{ Js::from(old('name', $product->name ?? '')) }},
+                sku: {{ Js::from(old('sku', $product->sku ?? '')) }},
+                customSku: {{ old('sku') || ($product->exists && $product->sku) ? 'true' : 'false' }},
+                categoryMode: '{{ old('new_category') ? 'input' : 'select' }}',
+                newCategory: '{{ old('new_category', '') }}',
+                categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'products_count' => $c->products_count ?? 0])) }},
+                selectedCategoryId: '{{ old('product_category_id', old('category_id', $product->product_category_id)) }}',
+                savingCategory: false,
+                quickAddMessage: '',
+
+                getCategoryName() {
+                    if (this.categoryMode === 'input') {
+                        return this.newCategory.trim();
+                    }
+                    const found = this.categories.find(c => String(c.id) === String(this.selectedCategoryId));
+                    return found ? found.name : '';
+                },
+
+                generateSku(name, categoryName) {
+                    if (!name || !name.trim()) return '';
+                    const clean = name.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+                    const words = clean.split(/\s+/).filter(Boolean);
+                    if (words.length === 0) return 'ITEM';
+
+                    let code = 'ITEM';
+                    if (words.length === 1) {
+                        code = words[0].substring(0, 4).toUpperCase();
+                    } else if (words.length === 2) {
+                        code = (words[0].substring(0, 3) + words[1].substring(0, 2)).toUpperCase();
+                    } else {
+                        let acronym = '';
+                        for (let i = 0; i < words.length; i++) {
+                            acronym += words[i][0];
+                        }
+                        code = acronym.substring(0, 5).toUpperCase();
+                    }
+
+                    code = code.replace(/-+$/, '');
+                    if (code.length < 3) {
+                        code = code.padEnd(3, 'X');
+                    }
+
+                    let catCode = '';
+                    const catUpper = (categoryName || '').toUpperCase();
+                    if (catUpper.includes('TEE')) catCode = 'TEE';
+                    else if (catUpper.includes('MUG')) catCode = 'MUG';
+                    else if (catUpper.includes('BOOK')) catCode = 'BOK';
+
+                    return catCode ? `CRM-${catCode}-${code}` : `CRM-${code}`;
+                },
+
+                onNameChange() {
+                    if (this.isNew && !this.customSku) {
+                        this.sku = this.generateSku(this.name, this.getCategoryName());
+                    }
+                },
+
+                onCategoryChange() {
+                    if (this.isNew && !this.customSku) {
+                        this.sku = this.generateSku(this.name, this.getCategoryName());
+                    }
+                },
+
+                autoGenerateSku() {
+                    this.customSku = false;
+                    this.sku = this.generateSku(this.name, this.getCategoryName());
+                },
+
+                async quickCreateCategory() {
+                    const catName = this.newCategory.trim();
+                    if (!catName) return;
+                    this.savingCategory = true;
+                    this.quickAddMessage = '';
+                    try {
+                        const res = await fetch('{{ route('admin.products.categories.quick-store') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({ name: catName })
+                        });
+                        const data = await res.json();
+                        if (data.success && data.category) {
+                            if (!this.categories.some(c => c.id === data.category.id)) {
+                                this.categories.push(data.category);
+                            }
+                            this.selectedCategoryId = data.category.id;
+                            this.newCategory = '';
+                            this.categoryMode = 'select';
+                            this.quickAddMessage = 'Category created and selected!';
+                            this.onCategoryChange();
+                            setTimeout(() => this.quickAddMessage = '', 3000);
+                        }
+                    } catch (e) {
+                        console.error(e);
+                    } finally {
+                        this.savingCategory = false;
+                    }
+                },
+
+                async deleteCategory(id, name, count) {
+                    const confirmMsg = count > 0 
+                        ? `Category "${name}" is assigned to ${count} product(s).\n\nDeleting it will unlink these products (they will become uncategorized), but will NOT delete the products.\n\nAre you sure you want to remove this category?`
+                        : `Are you sure you want to remove category "${name}"?`;
+                    if (!confirm(confirmMsg)) return;
+
+                    this.deletingCategoryId = id;
+                    this.categoryDeleteMessage = '';
+                    this.categoryDeleteError = '';
+
+                    try {
+                        const res = await fetch(`{{ url('admin/products/categories') }}/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            this.categories = this.categories.filter(c => c.id !== id);
+                            if (String(this.selectedCategoryId) === String(id)) {
+                                this.selectedCategoryId = '';
+                                this.onCategoryChange();
+                            }
+                            this.categoryDeleteMessage = `Category "${name}" removed successfully.`;
+                            setTimeout(() => this.categoryDeleteMessage = '', 3500);
+                        } else {
+                            this.categoryDeleteError = data.message || 'Failed to remove category.';
+                        }
+                    } catch (err) {
+                        this.categoryDeleteError = 'An error occurred while deleting category.';
+                    } finally {
+                        this.deletingCategoryId = null;
+                    }
+                }
+            };
+        }
+    </script>
 </x-layouts.admin>
