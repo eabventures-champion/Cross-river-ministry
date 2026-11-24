@@ -1,11 +1,11 @@
 <x-layouts.app>
-    <section class="py-16 bg-paper min-h-[60vh]">
+    <section class="py-8 sm:py-16 bg-paper min-h-[60vh]">
         <div class="container-x max-w-4xl">
-            <h1 class="display-md mb-8">Checkout <span class="accent-italic">Order.</span></h1>
+            <h1 class="display-md mb-6 sm:mb-8">Checkout <span class="accent-italic">Order.</span></h1>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
                 <!-- Shipping & Contact Form -->
-                <div class="lg:col-span-7 card p-8 bg-white border border-line">
+                <div class="lg:col-span-7 card p-5 sm:p-8 bg-white border border-line">
                     <form action="{{ route('store.checkout.process') }}" method="POST" class="space-y-6">
                         @csrf
                         <h3 class="font-display text-xl font-normal text-ink border-b border-line pb-3">Shipping & Customer Information</h3>

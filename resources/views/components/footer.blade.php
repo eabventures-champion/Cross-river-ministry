@@ -97,9 +97,9 @@
         </div>
 
         <!-- Bottom Copyright -->
-        <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-white/50 gap-4">
+        <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-white/50 gap-3 text-center sm:text-left">
             <p>&copy; {{ date('Y') }} Cross Rivers Ministries. All Rights Reserved.</p>
-            <div class="flex items-center gap-6">
+            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
                 <span>"When you pass through the rivers, they will not overwhelm you." — Isaiah 43:2</span>
                 <a href="{{ route('admin.login') }}" class="hover:text-white transition-colors">Admin Portal</a>
             </div>

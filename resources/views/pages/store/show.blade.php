@@ -39,11 +39,11 @@
                             <input type="number" name="quantity" value="1" min="1" max="{{ max(1, $product->stock) }}" class="w-20 form-input py-2 text-center text-sm">
                         </div>
 
-                        <div class="flex flex-col sm:flex-row gap-4 pt-2">
-                            <button type="submit" class="btn btn-primary w-full py-4" :disabled="loading || {{ $product->stock <= 0 ? 'true' : 'false' }}">
+                        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                            <button type="submit" class="btn btn-primary w-full py-3.5 sm:py-4" :disabled="loading || {{ $product->stock <= 0 ? 'true' : 'false' }}">
                                 <span x-text="added ? 'Added to Cart ✓' : 'Add to Cart'"></span>
                             </button>
-                            <a href="{{ route('store.cart') }}" class="btn btn-outline w-full py-4">
+                            <a href="{{ route('store.cart') }}" class="btn btn-outline w-full py-3.5 sm:py-4">
                                 <span>View Cart</span>
                             </a>
                         </div>

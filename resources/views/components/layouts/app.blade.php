@@ -48,7 +48,7 @@
         {!! seo()->jsonLd() !!}
     </script>
 </head>
-<body class="min-h-full flex flex-col bg-white selection:bg-lime-500 selection:text-ink">
+<body class="min-h-full flex flex-col bg-white selection:bg-lime-500 selection:text-ink overflow-x-hidden">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-500 focus:text-white focus:px-4 focus:py-2 focus:rounded-[2px]">
         Skip to main content
     </a>

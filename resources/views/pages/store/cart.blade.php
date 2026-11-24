@@ -65,28 +65,28 @@
             <!-- Non-empty Cart -->
             <div x-show="items.length > 0" class="bg-white border border-line rounded-[2px] shadow-soft divide-y divide-line">
                 @foreach($lines as $index => $line)
-                    <div class="p-6 flex flex-col sm:flex-row items-center justify-between gap-6"
+                    <div class="p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6"
                          x-show="items[{{ $index }}]"
                          x-transition>
-                        <div class="flex items-center gap-4 w-full sm:w-auto">
-                            <div class="size-20 shrink-0 bg-paper rounded-[2px] overflow-hidden">
+                        <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                            <div class="size-16 sm:size-20 shrink-0 bg-paper rounded-[2px] overflow-hidden">
                                 <img src="{{ asset($line['product']->imageUrl() ?? 'images/site/journal.jpg') }}" alt="{{ $line['product']->name }}" class="w-full h-full object-cover">
                             </div>
-                            <div>
-                                <h3 class="font-display text-lg font-normal text-ink">
+                            <div class="min-w-0 flex-1">
+                                <h3 class="font-display text-base sm:text-lg font-normal text-ink line-clamp-2">
                                     <a href="{{ route('store.show', $line['product']) }}" class="hover:text-brand-500">{{ $line['product']->name }}</a>
                                 </h3>
                                 <span class="text-xs text-muted block">{{ $line['product']->formattedPrice() }} each</span>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto">
+                        <div class="flex items-center justify-between sm:justify-end gap-3 sm:gap-6 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-0 border-line/60">
                             <!-- Reactive Quantity Input -->
                             <div class="flex items-center gap-2">
                                 <div class="flex items-center border border-line rounded-[2px] overflow-hidden bg-white">
                                     <button type="button"
                                             @click="changeQuantity(items[{{ $index }}], items[{{ $index }}].quantity - 1)"
-                                            class="px-2.5 py-1.5 text-slate hover:bg-slate-100 transition-colors text-xs font-semibold focus:outline-none"
+                                            class="px-2.5 py-1 text-slate hover:bg-slate-100 transition-colors text-xs font-semibold focus:outline-none"
                                             title="Decrease quantity">
                                         −
                                     </button>
@@ -96,10 +96,10 @@
                                            @input="items[{{ $index }}].quantity = Math.max(1, parseInt($event.target.value) || 1)"
                                            min="1"
                                            max="{{ $line['product']->stock }}"
-                                           class="w-12 text-center text-xs font-semibold py-1.5 border-x border-line focus:outline-none focus:ring-0">
+                                           class="w-10 sm:w-12 text-center text-xs font-semibold py-1 border-x border-line focus:outline-none focus:ring-0">
                                     <button type="button"
                                             @click="changeQuantity(items[{{ $index }}], items[{{ $index }}].quantity + 1)"
-                                            class="px-2.5 py-1.5 text-slate hover:bg-slate-100 transition-colors text-xs font-semibold focus:outline-none"
+                                            class="px-2.5 py-1 text-slate hover:bg-slate-100 transition-colors text-xs font-semibold focus:outline-none"
                                             title="Increase quantity">
                                         +
                                     </button>
@@ -107,7 +107,7 @@
                             </div>
 
                             <!-- Reactive Line Subtotal -->
-                            <span class="font-bold text-brand-500 w-24 text-right"
+                            <span class="font-bold text-brand-500 text-sm sm:text-base w-20 sm:w-24 text-right"
                                   x-text="formatMoney(items[{{ $index }}].price * items[{{ $index }}].quantity)">
                                 ${{ number_format($line['subtotal'], 2) }}
                             </span>
@@ -115,7 +115,7 @@
                             <!-- Remove Button -->
                             <button type="button"
                                     @click="removeItem({{ $index }})"
-                                    class="text-red-500 hover:text-red-700 p-1.5 rounded-[2px] hover:bg-red-50 transition-colors"
+                                    class="text-red-500 hover:text-red-700 p-1.5 rounded-[2px] hover:bg-red-50 transition-colors shrink-0"
                                     title="Remove item">
                                 <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -126,16 +126,16 @@
                 @endforeach
 
                 <!-- Total & Checkout Action -->
-                <div class="p-8 bg-paper flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="p-5 sm:p-8 bg-paper flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-6">
                     <div>
                         <span class="text-xs uppercase tracking-wider text-muted font-semibold block">Order Subtotal</span>
-                        <span class="font-display text-3xl font-bold text-brand-500" x-text="formatMoney(total)">
+                        <span class="font-display text-2xl sm:text-3xl font-bold text-brand-500" x-text="formatMoney(total)">
                             ${{ number_format($total, 2) }}
                         </span>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <a href="{{ route('store.index') }}" class="btn btn-outline">Continue Shopping</a>
-                        <a href="{{ route('store.checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4">
+                        <a href="{{ route('store.index') }}" class="btn btn-outline text-center py-3">Continue Shopping</a>
+                        <a href="{{ route('store.checkout') }}" class="btn btn-primary text-center py-3">Proceed to Checkout</a>
                     </div>
                 </div>
             </div>
