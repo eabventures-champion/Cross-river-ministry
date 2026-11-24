@@ -7,7 +7,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/98_Typography_Authentic_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/98_Typography_Authentic_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-AUTH",
+    "initial_stock": 50
   },
   {
     "name": "Awesome",
@@ -17,7 +19,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/89_Typography_Awesome_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/89_Typography_Awesome_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-AWES",
+    "initial_stock": 50
   },
   {
     "name": "Faith Is",
@@ -27,7 +31,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/99_Typography_FaithIsTo_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/99_Typography_FaithIsTo_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-FAIIS",
+    "initial_stock": 50
   },
   {
     "name": "3 Eyes",
@@ -37,7 +43,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/100_Typography_DivinityHas_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/100_Typography_DivinityHas_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-3EY",
+    "initial_stock": 50
   },
   {
     "name": "A Do Word",
@@ -47,7 +55,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/29_typography_believing-is-a-do_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/29_typography_believing-is-a-do_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-ADW",
+    "initial_stock": 50
   },
   {
     "name": "A Feast",
@@ -57,7 +67,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/65_Typography_GodIsHaving_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/65_Typography_GodIsHaving_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-AFE",
+    "initial_stock": 50
   },
   {
     "name": "A Prideful Man is Already Falling",
@@ -67,7 +79,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-38-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-38.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-APMIA",
+    "initial_stock": 50
   },
   {
     "name": "A Prized Creation",
@@ -77,7 +91,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/27_tpography_i-am-a-prized_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/27_tpography_i-am-a-prized_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-APC",
+    "initial_stock": 50
   },
   {
     "name": "A Warrior",
@@ -87,7 +103,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/44_Typography_AWarrior_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/44_Typography_AWarrior_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-AWA",
+    "initial_stock": 50
   },
   {
     "name": "A Warrior",
@@ -97,7 +115,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-21-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-21.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-AWA",
+    "initial_stock": 50
   },
   {
     "name": "Adulterous",
@@ -107,7 +127,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/49_Typography_ItIsAdultWho_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/49_Typography_ItIsAdultWho_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-ADUL",
+    "initial_stock": 50
   },
   {
     "name": "Any Way",
@@ -117,7 +139,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/47_Typography_AnyWaySoCalled_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/47_Typography_AnyWaySoCalled_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-ANYWA",
+    "initial_stock": 50
   },
   {
     "name": "Ask For Wisdom",
@@ -127,7 +151,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/08_typograpy_have-you_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/08_typograpy_have-you_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-AFW",
+    "initial_stock": 50
   },
   {
     "name": "Authority",
@@ -137,7 +163,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/91_Typography_Authority_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/91_Typography_Authority_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-AUTH-01",
+    "initial_stock": 50
   },
   {
     "name": "Be Childlike",
@@ -147,7 +175,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-2-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-2.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-BECH",
+    "initial_stock": 50
   },
   {
     "name": "Being Free",
@@ -157,7 +187,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/13_Typography_BeingCareless_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/13_Typography_BeingCareless_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-BEIFR",
+    "initial_stock": 50
   },
   {
     "name": "Believe to See",
@@ -167,7 +199,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/70_Typography_YouBelieve_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/70_Typography_YouBelieve_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-BTS",
+    "initial_stock": 50
   },
   {
     "name": "Believing",
@@ -177,7 +211,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/79_Typography_Believing_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/79_Typography_Believing_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-BELI",
+    "initial_stock": 50
   },
   {
     "name": "Believing God",
@@ -187,7 +223,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/92_Typography_GodBelieving_Shirt-2-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/92_Typography_GodBelieving_Shirt-2.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-BELGO",
+    "initial_stock": 50
   },
   {
     "name": "Better Wise",
@@ -197,7 +235,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/40_typography_better-wish-than-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/40_typography_better-wish-than.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-BETWI",
+    "initial_stock": 50
   },
   {
     "name": "Boaz",
@@ -207,7 +247,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-31-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-31.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-BOAZ",
+    "initial_stock": 50
   },
   {
     "name": "Care-Free Mugs",
@@ -217,7 +259,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-40-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-40.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-CARMU",
+    "initial_stock": 50
   },
   {
     "name": "Caught Not Taught",
@@ -227,7 +271,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/18_typography_itsBetterCought_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/18_typography_itsBetterCought_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-CNT",
+    "initial_stock": 50
   },
   {
     "name": "Childlike",
@@ -237,7 +283,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/09_typography_be-childlike_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/09_typography_be-childlike_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-CHIL",
+    "initial_stock": 50
   },
   {
     "name": "Clowning to Preaching",
@@ -247,7 +295,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/30_typography_from-clowning_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/30_typography_from-clowning_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-CTP",
+    "initial_stock": 50
   },
   {
     "name": "Clowning to Preaching",
@@ -257,7 +307,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-39-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-39.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-CTP",
+    "initial_stock": 50
   },
   {
     "name": "Cross Rivers Ministries",
@@ -267,7 +319,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/44-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/44.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-CRM",
+    "initial_stock": 50
   },
   {
     "name": "Do Good Now",
@@ -277,7 +331,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-3-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-3.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-DGN",
+    "initial_stock": 50
   },
   {
     "name": "Dominion",
@@ -287,7 +343,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/80_Typography_Dominion_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/80_Typography_Dominion_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-DOMI",
+    "initial_stock": 50
   },
   {
     "name": "Don\u2019t Let the Look Fool You",
@@ -297,7 +355,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-30-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-30.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-DLTLF",
+    "initial_stock": 50
   },
   {
     "name": "Everlasting",
@@ -307,7 +367,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/81_Typography_Everlasting_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/81_Typography_Everlasting_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-EVER",
+    "initial_stock": 50
   },
   {
     "name": "EYES",
@@ -317,7 +379,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/49-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/49.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-EYES",
+    "initial_stock": 50
   },
   {
     "name": "FAITH",
@@ -327,7 +391,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/21-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/21.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-FAIT",
+    "initial_stock": 50
   },
   {
     "name": "Faith Answers",
@@ -337,7 +403,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/37_typography_-fath-answer_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/37_typography_-fath-answer_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-FAIAN",
+    "initial_stock": 50
   },
   {
     "name": "Faith Expects",
@@ -347,7 +415,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/32_typography_faith-expectations_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/32_typography_faith-expectations_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-FAIEX",
+    "initial_stock": 50
   },
   {
     "name": "Faith Makes You Say",
@@ -357,7 +427,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/22_Religious_FaithMakesYou_Shirt-3-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/22_Religious_FaithMakesYou_Shirt-3.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-FMYS",
+    "initial_stock": 50
   },
   {
     "name": "Fed Up",
@@ -367,7 +439,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/34_typography_-i-have-eaten_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/34_typography_-i-have-eaten_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-FEDUP",
+    "initial_stock": 50
   },
   {
     "name": "Fed Up",
@@ -377,7 +451,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-22-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-22.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-FEDUP",
+    "initial_stock": 50
   },
   {
     "name": "From Clowning to Preaching",
@@ -387,7 +463,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-18-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-18.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-FCTP",
+    "initial_stock": 50
   },
   {
     "name": "From Clowning to Teaching",
@@ -397,7 +475,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-9-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-9.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-FCTT",
+    "initial_stock": 50
   },
   {
     "name": "Fulfillment for Emptiness",
@@ -407,7 +487,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-24-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-24.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-FFE",
+    "initial_stock": 50
   },
   {
     "name": "Genesis1:1",
@@ -417,7 +499,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/89-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/89.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-GENE",
+    "initial_stock": 50
   },
   {
     "name": "God IS IN THE DETAILS",
@@ -427,7 +511,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/56-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/56.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-GIITD",
+    "initial_stock": 50
   },
   {
     "name": "God Misses You",
@@ -437,7 +523,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-25-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-25.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-GMY",
+    "initial_stock": 50
   },
   {
     "name": "God\u2019s Check",
@@ -447,7 +535,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-34-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-34.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-GODCH",
+    "initial_stock": 50
   },
   {
     "name": "God\u2019s Equation",
@@ -457,7 +547,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/71_Typography_GodsEquation_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/71_Typography_GodsEquation_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-GODEQ",
+    "initial_stock": 50
   },
   {
     "name": "God\u2019s Got My Back",
@@ -467,7 +559,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/05_typography_gods-got_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/05_typography_gods-got_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-GGMB",
+    "initial_stock": 50
   },
   {
     "name": "Going",
@@ -477,7 +571,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/74_Typography_HaventGotten_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/74_Typography_HaventGotten_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-GOIN",
+    "initial_stock": 50
   },
   {
     "name": "Good Debt",
@@ -487,7 +583,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/48_Typography_IfThereIsGood_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/48_Typography_IfThereIsGood_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-GOODE",
+    "initial_stock": 50
   },
   {
     "name": "Good Morning Wisdom",
@@ -497,7 +595,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-14-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-14.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-GMW",
+    "initial_stock": 50
   },
   {
     "name": "Grace for DisGrace",
@@ -507,7 +607,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-27-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-27.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-GFD",
+    "initial_stock": 50
   },
   {
     "name": "Have It",
@@ -517,7 +619,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/95_Typography_HaventGotten_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/95_Typography_HaventGotten_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-HAVIT",
+    "initial_stock": 50
   },
   {
     "name": "He Is The Answers",
@@ -527,7 +631,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/39_Typography_WithoutQuestion_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/39_Typography_WithoutQuestion_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-HITA",
+    "initial_stock": 50
   },
   {
     "name": "Hell As We Know It",
@@ -537,7 +643,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/58_Typography_HellAsWe_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/58_Typography_HellAsWe_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-HAWKI",
+    "initial_stock": 50
   },
   {
     "name": "Hell Is",
@@ -547,7 +655,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/63_Typography_HellIsNotOnly_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/63_Typography_HellIsNotOnly_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-HELIS",
+    "initial_stock": 50
   },
   {
     "name": "Him & Her",
@@ -557,7 +667,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/51_Typography_ThereIsHim_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/51_Typography_ThereIsHim_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-HIMHE",
+    "initial_stock": 50
   },
   {
     "name": "I Am",
@@ -567,7 +679,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/Mug-with-Box-21-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/Mug-with-Box-21.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-IAM",
+    "initial_stock": 50
   },
   {
     "name": "If Truly",
@@ -577,7 +691,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/52_Typography_IfTrulyGod_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/52_Typography_IfTrulyGod_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-IFTR",
+    "initial_stock": 50
   },
   {
     "name": "If You Don\u2019t See",
@@ -587,7 +703,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/50_Typography_IfYouDontSee_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/50_Typography_IfYouDontSee_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-IYDS",
+    "initial_stock": 50
   },
   {
     "name": "In His Image",
@@ -597,7 +715,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/72_Typography_MadeInOur_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/72_Typography_MadeInOur_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-IHI",
+    "initial_stock": 50
   },
   {
     "name": "It Is Impossible",
@@ -607,7 +727,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/60_Typography_ItIsImpossible_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/60_Typography_ItIsImpossible_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-III",
+    "initial_stock": 50
   },
   {
     "name": "It\u2019s Better Caught",
@@ -617,7 +739,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-11-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-11.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-IBC",
+    "initial_stock": 50
   },
   {
     "name": "JESUS",
@@ -627,7 +751,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/43-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/43.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-JESU",
+    "initial_stock": 50
   },
   {
     "name": "Jesus Course",
@@ -637,7 +763,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/20_typography_the-jesus_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/20_typography_the-jesus_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-JESCO",
+    "initial_stock": 50
   },
   {
     "name": "Joy for Tears",
@@ -647,7 +775,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-20-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-20.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-JFT",
+    "initial_stock": 50
   },
   {
     "name": "Just Ask God",
@@ -657,7 +787,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/12_typography_wisdomis-free-copy_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/12_typography_wisdomis-free-copy_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-JAG",
+    "initial_stock": 50
   },
   {
     "name": "Kingdom Warrior",
@@ -667,7 +799,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/94-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/94.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-KINWA",
+    "initial_stock": 50
   },
   {
     "name": "Laughter is Good Medicine",
@@ -677,7 +811,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-28-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-28.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-LIGM",
+    "initial_stock": 50
   },
   {
     "name": "Letting GO",
@@ -687,7 +823,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/38_typography_don_t-let-your_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/38_typography_don_t-let-your_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-LETGO",
+    "initial_stock": 50
   },
   {
     "name": "Light Comprehends",
@@ -697,7 +835,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/57_Typography_LightComprehends_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/57_Typography_LightComprehends_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-LIGCO",
+    "initial_stock": 50
   },
   {
     "name": "Listed Address",
@@ -707,7 +847,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/46_Typography_AreyouHappy_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/46_Typography_AreyouHappy_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-LISAD",
+    "initial_stock": 50
   },
   {
     "name": "Lit UP",
@@ -717,7 +859,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/25_Fire_GodWantsYou_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/25_Fire_GodWantsYou_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-LITUP",
+    "initial_stock": 50
   },
   {
     "name": "Lit Up",
@@ -727,7 +871,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-13-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-13.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-LITUP",
+    "initial_stock": 50
   },
   {
     "name": "Meet Wisdom",
@@ -737,7 +883,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/21_typography_have-you-met_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/21_typography_have-you-met_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-MEEWI",
+    "initial_stock": 50
   },
   {
     "name": "Mind of God",
@@ -747,7 +895,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/54_Typography_TheUniverseYou_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/54_Typography_TheUniverseYou_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-MOG",
+    "initial_stock": 50
   },
   {
     "name": "Movement IN GOD",
@@ -757,7 +907,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/55-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/55.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-MIG",
+    "initial_stock": 50
   },
   {
     "name": "My Thoughts",
@@ -767,7 +919,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/59_Typography_NeitherMy_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/59_Typography_NeitherMy_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-MYTH",
+    "initial_stock": 50
   },
   {
     "name": "Not What Happened",
@@ -777,7 +931,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-36-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-36.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-NWH",
+    "initial_stock": 50
   },
   {
     "name": "Not What Happened",
@@ -787,7 +943,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-23-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-23.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-NWH-01",
+    "initial_stock": 50
   },
   {
     "name": "Nurtured By Choice",
@@ -797,7 +955,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/06_typography_sinners_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/06_typography_sinners_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-NBC",
+    "initial_stock": 50
   },
   {
     "name": "Only Evil",
@@ -807,7 +967,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/53_Typography_ItsOnlyEvil_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/53_Typography_ItsOnlyEvil_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-ONLEV",
+    "initial_stock": 50
   },
   {
     "name": "Only Wrong",
@@ -817,7 +979,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/55_Typography_ItsOnlyWrong_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/55_Typography_ItsOnlyWrong_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-ONLWR",
+    "initial_stock": 50
   },
   {
     "name": "Our Father",
@@ -827,7 +991,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/90_Typography_OurFather_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/90_Typography_OurFather_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-OURFA",
+    "initial_stock": 50
   },
   {
     "name": "Ownership",
@@ -837,7 +1003,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/75_Typography_Ownership_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/75_Typography_Ownership_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-OWNE",
+    "initial_stock": 50
   },
   {
     "name": "Perfect in Christ",
@@ -847,7 +1015,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/16_typography_IAmPerfectInChrist_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/16_typography_IAmPerfectInChrist_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-PIC",
+    "initial_stock": 50
   },
   {
     "name": "Perfection of God",
@@ -857,7 +1027,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/17_typography_i-am-perfection-of-god_Shirt--300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/17_typography_i-am-perfection-of-god_Shirt-.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-POG",
+    "initial_stock": 50
   },
   {
     "name": "Power",
@@ -867,7 +1039,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/85_Typography_Power_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/85_Typography_Power_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-POWE",
+    "initial_stock": 50
   },
   {
     "name": "Power of No",
@@ -877,7 +1051,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-6-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-6.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-PON",
+    "initial_stock": 50
   },
   {
     "name": "Prayed Up",
@@ -887,7 +1063,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/24_typography_be-prayedup_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/24_typography_be-prayedup_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-PRAUP",
+    "initial_stock": 50
   },
   {
     "name": "Prayed Up",
@@ -897,7 +1075,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-17-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-17.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-PRAUP",
+    "initial_stock": 50
   },
   {
     "name": "Preeminence",
@@ -907,7 +1087,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/93_Typography_Preeminence_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/93_Typography_Preeminence_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-PREE",
+    "initial_stock": 50
   },
   {
     "name": "Proverbs 31st Woman",
@@ -917,7 +1099,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-29-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-29.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-P3W",
+    "initial_stock": 50
   },
   {
     "name": "Quick to Listen",
@@ -927,7 +1111,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-37-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-37.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-QTL",
+    "initial_stock": 50
   },
   {
     "name": "Rest",
@@ -937,7 +1123,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-12-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-12.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-REST",
+    "initial_stock": 50
   },
   {
     "name": "Right Can Never Be Wrong",
@@ -947,7 +1135,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/56_Typography_RightCanNever_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/56_Typography_RightCanNever_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-RCNBW",
+    "initial_stock": 50
   },
   {
     "name": "Sarah\u2019s Last Laugh",
@@ -957,7 +1147,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-33-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-33.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-SLL",
+    "initial_stock": 50
   },
   {
     "name": "See It",
@@ -967,7 +1159,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/78_Typography_IfYouCanSee_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/78_Typography_IfYouCanSee_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SEEIT",
+    "initial_stock": 50
   },
   {
     "name": "Seeing is Not Believing",
@@ -977,7 +1171,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/69_Typography_SeeingIsNotEqual_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/69_Typography_SeeingIsNotEqual_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SINB",
+    "initial_stock": 50
   },
   {
     "name": "Seeing is Not Believing",
@@ -987,7 +1183,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-4-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-4.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-SINB",
+    "initial_stock": 50
   },
   {
     "name": "Settling",
@@ -997,7 +1195,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/77_Typography_Settling_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/77_Typography_Settling_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SETT",
+    "initial_stock": 50
   },
   {
     "name": "Simply Genius",
@@ -1007,7 +1207,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/07_typography_no-to-sin_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/07_typography_no-to-sin_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SIMGE",
+    "initial_stock": 50
   },
   {
     "name": "SIN",
@@ -1017,7 +1219,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/86-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/86.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SIN",
+    "initial_stock": 50
   },
   {
     "name": "Sitcom",
@@ -1027,7 +1231,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/64_Acronym_SITCOM_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/64_Acronym_SITCOM_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SITC",
+    "initial_stock": 50
   },
   {
     "name": "So Love Me",
@@ -1037,7 +1243,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/31_typography_don_t-just-love-me_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/31_typography_don_t-just-love-me_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SLM",
+    "initial_stock": 50
   },
   {
     "name": "Social Security",
@@ -1047,7 +1255,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/97_Typography_SocialSecurity_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/97_Typography_SocialSecurity_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SOCSE",
+    "initial_stock": 50
   },
   {
     "name": "Some 1",
@@ -1057,7 +1267,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/26_typography_i-am-some-1_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/26_typography_i-am-some-1_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SOM1",
+    "initial_stock": 50
   },
   {
     "name": "Specially Yours",
@@ -1067,7 +1279,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/65-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/65.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-SPEYO",
+    "initial_stock": 50
   },
   {
     "name": "Stand On It",
@@ -1077,7 +1291,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-35-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-35.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-SOI",
+    "initial_stock": 50
   },
   {
     "name": "That God is Not",
@@ -1087,7 +1303,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/61_Typography_WhatGodIsNot_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/61_Typography_WhatGodIsNot_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TGIN",
+    "initial_stock": 50
   },
   {
     "name": "The Atheist",
@@ -1097,7 +1315,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/66_Typography_TheAthiestWhoDoesnt_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/66_Typography_TheAthiestWhoDoesnt_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-THEAT",
+    "initial_stock": 50
   },
   {
     "name": "The Big Deal",
@@ -1107,7 +1327,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/94_Typography_TheBigDeal_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/94_Typography_TheBigDeal_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TBD",
+    "initial_stock": 50
   },
   {
     "name": "The Creator",
@@ -1117,7 +1339,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/84_Typography_TheCreator_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/84_Typography_TheCreator_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-THECR",
+    "initial_stock": 50
   },
   {
     "name": "The Father\u2019s Will",
@@ -1127,7 +1351,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-15-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-15.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-TFW",
+    "initial_stock": 50
   },
   {
     "name": "The First Blog",
@@ -1137,7 +1363,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/83_Typography_TheFirst_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/83_Typography_TheFirst_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TFB",
+    "initial_stock": 50
   },
   {
     "name": "The Helper",
@@ -1147,7 +1375,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/43_Typography_TheHelperIsAlways_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/43_Typography_TheHelperIsAlways_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-THEHE",
+    "initial_stock": 50
   },
   {
     "name": "The Power of NO",
@@ -1157,7 +1387,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/01_typograpy_know-the_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/01_typograpy_know-the_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TPON",
+    "initial_stock": 50
   },
   {
     "name": "The Race",
@@ -1167,7 +1399,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/88-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/88.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-THERA",
+    "initial_stock": 50
   },
   {
     "name": "The Rat Race",
@@ -1177,7 +1411,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/33_typography_-the-rat-race-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/33_typography_-the-rat-race-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TRR",
+    "initial_stock": 50
   },
   {
     "name": "The Rat Race",
@@ -1187,7 +1423,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-19-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-19.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-TRR",
+    "initial_stock": 50
   },
   {
     "name": "The Trouble You See",
@@ -1197,7 +1435,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/03_typography_the-trouble_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/03_typography_the-trouble_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TTYS",
+    "initial_stock": 50
   },
   {
     "name": "The Way",
@@ -1207,7 +1447,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/88_Typography_TheWayTheTruth_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/88_Typography_TheWayTheTruth_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-THEWA",
+    "initial_stock": 50
   },
   {
     "name": "Tomorrow",
@@ -1217,7 +1459,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/68_Typography_TomorrowIs_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/68_Typography_TomorrowIs_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TOMO",
+    "initial_stock": 50
   },
   {
     "name": "Trading Places",
@@ -1227,7 +1471,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/42_Typography_TrandingForPlaces_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/42_Typography_TrandingForPlaces_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TRAPL",
+    "initial_stock": 50
   },
   {
     "name": "Trading Places",
@@ -1237,7 +1483,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/67-2-scaled-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/67-2-scaled.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TRAPL-01",
+    "initial_stock": 50
   },
   {
     "name": "Transcending",
@@ -1247,7 +1495,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/87_Typography_Transcending_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/87_Typography_Transcending_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TRAN",
+    "initial_stock": 50
   },
   {
     "name": "TRUE MATH",
@@ -1257,7 +1507,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/02-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/02.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TRUMA",
+    "initial_stock": 50
   },
   {
     "name": "Truth",
@@ -1267,7 +1519,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-7-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-7.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-TRUT",
+    "initial_stock": 50
   },
   {
     "name": "Truth Is",
@@ -1277,7 +1531,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/36_typography_truth-is_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/36_typography_truth-is_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TRUIS",
+    "initial_stock": 50
   },
   {
     "name": "Truth is God Evident",
@@ -1287,7 +1543,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/10_typography_truth_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/10_typography_truth_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-TIGE",
+    "initial_stock": 50
   },
   {
     "name": "Unbelief",
@@ -1297,7 +1555,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/73_Typography_unbelief_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/73_Typography_unbelief_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-UNBE",
+    "initial_stock": 50
   },
   {
     "name": "Unbelieving",
@@ -1307,7 +1567,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/67_Typography_TheUnbelieving_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/67_Typography_TheUnbelieving_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-UNBE-01",
+    "initial_stock": 50
   },
   {
     "name": "Under Your Feet",
@@ -1317,7 +1579,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/11_typography_the-devil-under_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/11_typography_the-devil-under_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-UYF",
+    "initial_stock": 50
   },
   {
     "name": "Vision",
@@ -1327,7 +1591,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/62_Eye_VisionHas_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/62_Eye_VisionHas_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-VISI",
+    "initial_stock": 50
   },
   {
     "name": "Vision",
@@ -1337,7 +1603,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-5-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-5.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-VISI",
+    "initial_stock": 50
   },
   {
     "name": "Who Happened",
@@ -1347,7 +1615,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/86_Typography_ItWasTrulyWho_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/86_Typography_ItWasTrulyWho_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-WHOHA",
+    "initial_stock": 50
   },
   {
     "name": "Wisdom is Free",
@@ -1357,7 +1627,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-8-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-8.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-WIF",
+    "initial_stock": 50
   },
   {
     "name": "WISE UP",
@@ -1367,7 +1639,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/37-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/37.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-WISUP",
+    "initial_stock": 50
   },
   {
     "name": "Witness",
@@ -1377,7 +1651,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/76_Typography_TheTrueWitness_Shirt-1-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/76_Typography_TheTrueWitness_Shirt-1.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-WITN",
+    "initial_stock": 50
   },
   {
     "name": "WORD UP",
@@ -1387,7 +1663,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/41-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/41.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-WORUP",
+    "initial_stock": 50
   },
   {
     "name": "Worded Up",
@@ -1397,7 +1675,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/23_typography_be-worded-up_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/23_typography_be-worded-up_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-WORUP-01",
+    "initial_stock": 50
   },
   {
     "name": "Worded Up",
@@ -1407,7 +1687,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-16-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-16.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-WORUP",
+    "initial_stock": 50
   },
   {
     "name": "Yea & Amen",
@@ -1417,7 +1699,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/96_Typography_YeaAndAmeen_Shirt-2-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2019/01/96_Typography_YeaAndAmeen_Shirt-2.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-YEAAM",
+    "initial_stock": 50
   },
   {
     "name": "Yesterday Today Forever",
@@ -1427,7 +1711,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/82_Typography_YesterdayToday_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/82_Typography_YesterdayToday_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-YTF",
+    "initial_stock": 50
   },
   {
     "name": "Your Ego",
@@ -1437,7 +1723,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-26-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-26.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-YOUEG",
+    "initial_stock": 50
   },
   {
     "name": "Your Father\u2019s Will",
@@ -1447,7 +1735,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/02_typography_have-you_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/02_typography_have-you_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-YFW",
+    "initial_stock": 50
   },
   {
     "name": "Your Fears Are Wrong",
@@ -1457,7 +1747,9 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/04_typography_your-right_Shirt-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/04_typography_your-right_Shirt.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-TEE-YFAW",
+    "initial_stock": 50
   },
   {
     "name": "Your Heart",
@@ -1467,6 +1759,8 @@
     "image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-32-300x300.jpg",
     "full_image_url": "https://ghostwhite-lark-853090.hostingersite.com/wp-content/uploads/2020/06/White_Mug_with_Box-32.jpg",
     "stock": 50,
-    "is_active": true
+    "is_active": true,
+    "sku": "CRM-MUG-YOUHE",
+    "initial_stock": 50
   }
 ]

@@ -591,4 +591,50 @@ class CrossRiversTest extends TestCase
         $this->assertNotNull($mugProduct);
         $this->assertEquals(9.99, (float) $mugProduct->price);
     }
+
+    public function test_product_sku_generation_and_inventory_stock_tracking(): void
+    {
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.com'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('password123'),
+                'is_admin' => true,
+                'is_active' => true,
+                'role' => 'super_admin',
+            ]
+        );
+
+        // 1. Create product without SKU or stock -> defaults to 50 stock and auto-generates SKU
+        $cat = \App\Models\ProductCategory::firstOrCreate(['name' => 'TEES'], ['slug' => 'tees']);
+        $product = \App\Models\Product::create([
+            'product_category_id' => $cat->id,
+            'name' => 'Peace In The River Daily Tee',
+            'price' => 24.99,
+        ]);
+
+        $this->assertNotEmpty($product->sku);
+        $this->assertStringContainsString('CRM-', $product->sku);
+        $this->assertEquals(50, $product->stock);
+        $this->assertEquals(50, $product->initial_stock);
+        $this->assertTrue($product->in_stock);
+        $this->assertEquals(50, $product->ever_stocked);
+        $this->assertEquals(0, $product->total_purchased);
+
+        // 2. Low stock alert triggering
+        $product->update(['stock' => 5]);
+        $this->assertTrue($product->isLowStock());
+
+        // 3. Admin products index displays metrics and low stock notification
+        $response = $this->actingAs($admin)->get(route('admin.products.index'));
+        $response->assertStatus(200);
+        $response->assertSee('Low Stock Inventory Notification');
+        $response->assertSee('Available Stock');
+        $response->assertSee('Ever Stocked');
+        $response->assertSee('Total Purchased');
+        $response->assertSee($product->sku);
+
+        // Clean up
+        $product->delete();
+    }
 }

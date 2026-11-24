@@ -151,13 +151,21 @@
 
                 <div>
                     <label class="form-label" for="sku">SKU / Item Code</label>
-                    <input type="text" id="sku" name="sku" class="form-input" value="{{ old('sku', $product->sku) }}" placeholder="CRM-BOK-01">
+                    <input type="text" id="sku" name="sku" class="form-input uppercase" value="{{ old('sku', $product->sku) }}" placeholder="e.g. CRM-TEE-YFAW (auto-generated)">
+                    <p class="text-[0.6875rem] text-slate-500 mt-1">Leave empty to auto-generate a unique SKU from product name.</p>
                     @error('sku')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
 
                 <div>
-                    <label class="form-label" for="stock">Stock Quantity</label>
-                    <input type="number" id="stock" name="stock" class="form-input" value="{{ old('stock', old('stock_quantity', $product->stock ?? 50)) }}">
+                    <label class="form-label" for="stock">Available Stock (Default 50)</label>
+                    <input type="number" id="stock" name="stock" min="0" class="form-input" value="{{ old('stock', old('stock_quantity', $product->stock ?? 50)) }}">
+                    <p class="text-[0.6875rem] text-slate-500 mt-1">
+                        @if($product->exists)
+                            Ever stocked: <strong>{{ $product->ever_stocked }}</strong> | Purchased: <strong>{{ $product->total_purchased }}</strong>
+                        @else
+                            Default is 50 units. Alert triggers when stock &le; 10.
+                        @endif
+                    </p>
                     @error('stock')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
             </div>

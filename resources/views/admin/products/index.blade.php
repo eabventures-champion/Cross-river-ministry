@@ -1,9 +1,10 @@
 <x-layouts.admin title="Store Products">
     <div class="space-y-6" x-data="{ showDeleteAllModal: false, confirmed: false, showImportModal: false }">
+        <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
                 <h1 class="font-display text-2xl sm:text-3xl font-light text-ink">Store Products</h1>
-                <p class="text-xs text-slate">Manage books, devotionals, study journals, and ministry merchandise.</p>
+                <p class="text-xs text-slate">Manage books, devotionals, study journals, and ministry merchandise inventory.</p>
             </div>
             <div class="flex items-center gap-2.5 self-start sm:self-auto flex-wrap">
                 <!-- Import Products Button -->
@@ -42,6 +43,156 @@
             </div>
         </div>
 
+        <!-- Low Stock Alert Notification Banner -->
+        @if(($lowStockCount ?? 0) > 0 || ($outOfStockCount ?? 0) > 0)
+            <div class="p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-[2px] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                    <div class="size-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-amber-900 uppercase tracking-wide">
+                            Low Stock Inventory Notification
+                        </h4>
+                        <p class="text-xs text-amber-800 mt-0.5">
+                            @if(($outOfStockCount ?? 0) > 0)
+                                <span class="font-bold text-red-700">{{ $outOfStockCount }} product(s) are completely Out of Stock!</span>
+                            @endif
+                            @if(($lowStockCount ?? 0) > 0)
+                                <span class="font-medium">{{ $lowStockCount }} product(s) have low inventory (&le; 10 units remaining). Restock soon to prevent order interruptions.</span>
+                            @endif
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <a href="{{ route('admin.products.index', ['inventory_filter' => 'low_stock']) }}" class="px-3 py-1.5 text-xs font-semibold rounded-[2px] bg-amber-600 hover:bg-amber-700 text-white transition-colors">
+                        View Low Stock ({{ $lowStockCount ?? 0 }})
+                    </a>
+                    @if(request('inventory_filter'))
+                        <a href="{{ route('admin.products.index') }}" class="px-3 py-1.5 text-xs font-semibold rounded-[2px] bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors">
+                            Show All
+                        </a>
+                    @endif
+                </div>
+            </div>
+        @endif
+
+        <!-- 4 Platform Inventory Metric Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <!-- 1. Available Stock -->
+            <div class="card p-4 sm:p-5 bg-white border border-slate-200 rounded-[2px] shadow-xs">
+                <div class="flex items-center justify-between text-slate-500 mb-1">
+                    <span class="text-[0.6875rem] font-bold uppercase tracking-wider">Available Stock</span>
+                    <span class="size-7 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
+                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="text-xl sm:text-2xl font-bold text-ink">
+                    {{ number_format($totalStock ?? 0) }}
+                </div>
+                <p class="text-[0.6875rem] text-slate-400 mt-1">Units ready for purchase</p>
+            </div>
+
+            <!-- 2. Ever Stocked -->
+            <div class="card p-4 sm:p-5 bg-white border border-slate-200 rounded-[2px] shadow-xs">
+                <div class="flex items-center justify-between text-slate-500 mb-1">
+                    <span class="text-[0.6875rem] font-bold uppercase tracking-wider">Ever Stocked</span>
+                    <span class="size-7 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="text-xl sm:text-2xl font-bold text-brand-600">
+                    {{ number_format($everStocked ?? 0) }}
+                </div>
+                <p class="text-[0.6875rem] text-slate-400 mt-1">Total inventory supplied</p>
+            </div>
+
+            <!-- 3. Total Purchased -->
+            <div class="card p-4 sm:p-5 bg-white border border-slate-200 rounded-[2px] shadow-xs">
+                <div class="flex items-center justify-between text-slate-500 mb-1">
+                    <span class="text-[0.6875rem] font-bold uppercase tracking-wider">Total Purchased</span>
+                    <span class="size-7 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center">
+                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="text-xl sm:text-2xl font-bold text-purple-600">
+                    {{ number_format($totalPurchased ?? 0) }}
+                </div>
+                <p class="text-[0.6875rem] text-slate-400 mt-1">Units bought by customers</p>
+            </div>
+
+            <!-- 4. Low Stock Alerts -->
+            <div class="card p-4 sm:p-5 bg-white border border-slate-200 rounded-[2px] shadow-xs">
+                <div class="flex items-center justify-between text-slate-500 mb-1">
+                    <span class="text-[0.6875rem] font-bold uppercase tracking-wider">Low Stock Alerts</span>
+                    <span class="size-7 rounded-full {{ ($lowStockCount ?? 0) > 0 ? 'bg-amber-100 text-amber-700 animate-pulse' : 'bg-slate-100 text-slate-400' }} flex items-center justify-center">
+                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="text-xl sm:text-2xl font-bold {{ ($lowStockCount ?? 0) > 0 ? 'text-amber-600' : 'text-slate-700' }}">
+                    {{ $lowStockCount ?? 0 }}
+                </div>
+                <p class="text-[0.6875rem] text-slate-400 mt-1">Products &le; 10 units</p>
+            </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="bg-white border border-slate-200 rounded-[2px] p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 shadow-xs">
+            <!-- Filter Tabs -->
+            <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
+                <a href="{{ route('admin.products.index', request()->only('q', 'category')) }}" 
+                   class="px-3 py-1.5 text-xs font-semibold rounded-[2px] whitespace-nowrap transition-colors {{ !request('inventory_filter') ? 'bg-brand-500 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
+                    All ({{ $totalProducts ?? $products->total() }})
+                </a>
+                <a href="{{ route('admin.products.index', array_merge(request()->only('q', 'category'), ['inventory_filter' => 'in_stock'])) }}" 
+                   class="px-3 py-1.5 text-xs font-semibold rounded-[2px] whitespace-nowrap transition-colors {{ request('inventory_filter') === 'in_stock' ? 'bg-brand-500 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200' }}">
+                    In Stock ({{ max(0, ($totalProducts ?? 0) - ($lowStockCount ?? 0) - ($outOfStockCount ?? 0)) }})
+                </a>
+                <a href="{{ route('admin.products.index', array_merge(request()->only('q', 'category'), ['inventory_filter' => 'low_stock'])) }}" 
+                   class="px-3 py-1.5 text-xs font-semibold rounded-[2px] whitespace-nowrap transition-colors {{ request('inventory_filter') === 'low_stock' ? 'bg-amber-500 text-white' : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200' }}">
+                    ⚠️ Low Stock ({{ $lowStockCount ?? 0 }})
+                </a>
+                <a href="{{ route('admin.products.index', array_merge(request()->only('q', 'category'), ['inventory_filter' => 'out_of_stock'])) }}" 
+                   class="px-3 py-1.5 text-xs font-semibold rounded-[2px] whitespace-nowrap transition-colors {{ request('inventory_filter') === 'out_of_stock' ? 'bg-red-600 text-white' : 'bg-red-50 text-red-700 hover:bg-red-100 border border-red-200' }}">
+                    Out of Stock ({{ $outOfStockCount ?? 0 }})
+                </a>
+            </div>
+
+            <!-- Search by Name or SKU -->
+            <form action="{{ route('admin.products.index') }}" method="GET" class="relative w-full md:w-72 shrink-0">
+                @if(request('inventory_filter'))
+                    <input type="hidden" name="inventory_filter" value="{{ request('inventory_filter') }}">
+                @endif
+                <div class="relative flex items-center">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                        </svg>
+                    </span>
+                    <input 
+                        type="text" 
+                        name="q" 
+                        value="{{ request('q') }}" 
+                        placeholder="Search product name or SKU..." 
+                        class="form-input pl-9 pr-8 py-1.5 text-xs rounded-[2px] border border-slate-300 w-full"
+                    >
+                    @if(request('q'))
+                        <a href="{{ route('admin.products.index', request()->only('inventory_filter')) }}" class="absolute right-2.5 text-slate-400 hover:text-slate-600 text-xs">×</a>
+                    @endif
+                </div>
+            </form>
+        </div>
+
         <!-- Import Products Modal -->
         <div 
             x-show="showImportModal" 
@@ -75,7 +226,7 @@
                         </div>
                         <div>
                             <h3 class="font-display text-lg font-semibold text-ink">Import Store Products</h3>
-                            <p class="text-xs text-slate">Import products, categories (TEES & MUGS), prices, and images.</p>
+                            <p class="text-xs text-slate">Import products, categories, unique SKUs, prices, and default stock (50).</p>
                         </div>
                     </div>
                     <button type="button" @click="showImportModal = false" class="text-slate-400 hover:text-slate-600 p-1">
@@ -93,53 +244,48 @@
                         <span class="text-[0.6875rem] font-semibold bg-brand-200 text-brand-800 px-2 py-0.5 rounded">147 Products</span>
                     </div>
                     <p class="text-xs text-slate-700 leading-relaxed">
-                        Pre-exported from <code class="text-[11px] bg-white px-1 py-0.5 border border-brand-200 rounded">ghostwhite-lark-853090.hostingersite.com/store/</code> with categories <strong>TEES</strong> (108 items) and <strong>MUGS</strong> (39 items) with live product images and prices.
+                        Pre-exported catalog with categories <strong>TEES</strong> ($24.99) and <strong>MUGS</strong> ($9.99), auto-generated SKUs, and default stock of 50.
                     </p>
                     <form action="{{ route('admin.products.import') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary w-full py-2.5 text-xs flex items-center justify-center gap-2">
-                            <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
-                            <span>1-Click Import 147 Hostinger Products</span>
+                            <span>Import All 147 Hostinger Products</span>
+                            <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                         </button>
                     </form>
                 </div>
 
-                <div class="relative flex py-1 items-center">
-                    <div class="flex-grow border-t border-slate-200"></div>
-                    <span class="flex-shrink mx-3 text-xs text-slate-400 uppercase font-semibold">Or upload custom file</span>
-                    <div class="flex-grow border-t border-slate-200"></div>
-                </div>
-
                 <!-- 2. Custom File Upload (JSON or CSV) -->
-                <form action="{{ route('admin.products.import') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
-                    @csrf
-                    <div>
-                        <label class="form-label" for="import_file">Select JSON or CSV file</label>
-                        <input 
-                            type="file" 
-                            id="import_file" 
-                            name="file" 
-                            accept=".json,.csv" 
-                            required
-                            class="text-xs text-slate file:mr-3 file:py-2 file:px-3 file:rounded-[2px] file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer w-full border border-slate-200 p-1"
-                        >
+                <div class="pt-2 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Or Upload Custom JSON / CSV</span>
+                        <div class="h-px bg-slate-200 flex-1"></div>
                     </div>
-                    <div class="flex items-center justify-between pt-1">
-                        <div class="flex items-center gap-2 text-[11px] text-slate-500">
-                            <span>Download export:</span>
-                            <a href="{{ asset('exports/exported_products.json') }}" download class="text-brand-600 hover:underline font-semibold">JSON</a>
-                            <span>•</span>
-                            <a href="{{ asset('exports/exported_products.csv') }}" download class="text-brand-600 hover:underline font-semibold">CSV</a>
+                    <form action="{{ route('admin.products.import') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
+                        @csrf
+                        <div>
+                            <input 
+                                type="file" 
+                                name="file" 
+                                accept=".json,.csv"
+                                required 
+                                class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3.5 file:rounded-[2px] file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 border border-slate-200 rounded-[2px]"
+                            >
                         </div>
-                        <button type="submit" class="btn btn-secondary btn-sm px-4">
-                            <span>Upload & Import</span>
-                        </button>
-                    </div>
-                </form>
+                        <div class="flex items-center justify-end gap-2 pt-1">
+                            <button type="button" @click="showImportModal = false" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-800">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-secondary btn-sm py-1.5 text-xs">
+                                Upload & Import
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
-        <!-- Caution Modal: Delete All Products -->
+        <!-- Delete All Confirmation Modal -->
         <div 
             x-show="showDeleteAllModal" 
             x-cloak
@@ -226,52 +372,90 @@
             </div>
         </div>
 
+        <!-- Products Table -->
         <div class="bg-white border border-slate-200 rounded-[2px] overflow-x-auto shadow-sm">
             <table class="w-full text-left text-sm text-slate-600">
                 <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase font-semibold text-slate-500">
                     <tr>
-                        <th class="p-4">Product</th>
+                        <th class="p-4">Product & SKU</th>
                         <th class="p-4">Category</th>
                         <th class="p-4">Price</th>
-                        <th class="p-4">Inventory</th>
+                        <th class="p-4">Inventory & Tracking</th>
                         <th class="p-4">Status</th>
                         <th class="p-4 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     @forelse($products as $p)
-                        <tr class="hover:bg-slate-50">
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <!-- Product Name & Generated Unique SKU -->
                             <td class="p-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="size-10 rounded-[2px] bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
+                                    <div class="size-11 rounded-[2px] bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
                                         @if($p->imageUrl())
                                             <img src="{{ $p->imageUrl() }}" alt="{{ $p->name }}" class="size-full object-cover">
                                         @else
                                             <span class="text-xs font-bold text-slate-400">ITEM</span>
                                         @endif
                                     </div>
-                                    <div>
-                                        <span class="font-semibold text-ink block">{{ $p->name }}</span>
-                                        <span class="text-xs text-muted">{{ $p->sku ?: 'No SKU' }}</span>
+                                    <div class="min-w-0">
+                                        <span class="font-semibold text-ink block truncate max-w-xs sm:max-w-md">{{ $p->name }}</span>
+                                        <div class="flex items-center gap-1.5 mt-0.5">
+                                            <span class="inline-flex items-center font-mono text-[0.6875rem] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-[2px] border border-brand-200/80">
+                                                {{ $p->sku ?: Product::generateSku($p->name, $p->category?->name, $p->id) }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
+
+                            <!-- Category -->
                             <td class="p-4 text-xs font-medium text-slate-700">
-                                {{ $p->category->name ?? 'General' }}
-                            </td>
-                            <td class="p-4 text-xs font-semibold text-ink">
-                                ${{ number_format($p->price, 2) }}
-                            </td>
-                            <td class="p-4 text-xs">
-                                <span class="{{ $p->in_stock ? 'text-green-700 font-semibold' : 'text-red-600 font-semibold' }}">
-                                    {{ $p->in_stock ? 'In Stock' : 'Out of Stock' }}
+                                <span class="inline-block px-2 py-0.5 rounded-[2px] bg-slate-100 text-slate-800 font-semibold text-[0.6875rem] uppercase tracking-wider">
+                                    {{ $p->category->name ?? 'General' }}
                                 </span>
                             </td>
+
+                            <!-- Price -->
+                            <td class="p-4 text-xs font-bold text-ink">
+                                ${{ number_format($p->price, 2) }}
+                            </td>
+
+                            <!-- Inventory: Available Stock, Purchased, Ever Stocked & Notifications -->
+                            <td class="p-4 text-xs space-y-1">
+                                <div>
+                                    @if($p->stock <= 0)
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] text-[0.6875rem] font-bold bg-red-100 text-red-800">
+                                            <span class="size-1.5 rounded-full bg-red-600"></span>
+                                            <span>Out of Stock (0)</span>
+                                        </span>
+                                    @elseif($p->isLowStock())
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] text-[0.6875rem] font-bold bg-amber-100 text-amber-900 border border-amber-200">
+                                            <span class="size-1.5 rounded-full bg-amber-600 animate-pulse"></span>
+                                            <span>Low Stock: {{ $p->stock }} left</span>
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] text-[0.6875rem] font-bold bg-green-100 text-green-800">
+                                            <span class="size-1.5 rounded-full bg-green-600"></span>
+                                            <span>In Stock ({{ $p->stock }})</span>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="text-[0.6875rem] text-slate-500 font-medium">
+                                    <span>Ever Stocked: <strong class="text-slate-700">{{ $p->ever_stocked }}</strong></span>
+                                    <span class="text-slate-300 mx-1">|</span>
+                                    <span>Purchased: <strong class="text-purple-700">{{ $p->total_purchased }}</strong></span>
+                                </div>
+                            </td>
+
+                            <!-- Status -->
                             <td class="p-4">
                                 <span class="px-2 py-0.5 text-[0.6875rem] font-bold rounded-[2px] {{ $p->is_active ? 'bg-green-100 text-green-800' : 'bg-slate-100 text-slate-600' }}">
                                     {{ $p->is_active ? 'Active' : 'Draft' }}
                                 </span>
                             </td>
+
+                            <!-- Actions -->
                             <td class="p-4 text-right space-x-2">
                                 <a href="{{ route('admin.products.edit', $p) }}" class="text-brand-500 hover:underline text-xs font-medium">Edit</a>
                                 <form action="{{ route('admin.products.destroy', $p) }}" method="POST" class="inline" onsubmit="return confirm('Delete this product?')">
@@ -284,7 +468,7 @@
                     @empty
                         <tr>
                             <td colspan="6" class="p-8 text-center text-xs text-muted">
-                                No products created yet.
+                                No products found matching criteria.
                             </td>
                         </tr>
                     @endforelse

@@ -32,6 +32,8 @@ class DashboardController extends Controller
             'orders' => Order::count(),
             'unread_messages' => ContactSubmission::unread()->count(),
             'subscribers' => Subscriber::count(),
+            'low_stock_count' => Product::where('stock', '>', 0)->where('stock', '<=', 10)->count(),
+            'out_of_stock_count' => Product::where('stock', '<=', 0)->count(),
         ];
 
         $recentSubmissions = ContactSubmission::latest()->take(5)->get();

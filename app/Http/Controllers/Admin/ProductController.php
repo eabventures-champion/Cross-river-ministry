@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Services\MediaService;
@@ -14,17 +15,65 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $products = Product::with('category')->latest()->paginate(15);
-        $totalProducts = Product::count();
+        $query = Product::with(['category', 'orderItems']);
 
-        return view('admin.products.index', compact('products', 'totalProducts'));
+        // Search by name or SKU
+        if ($request->filled('q')) {
+            $term = trim($request->get('q'));
+            $query->where(function ($q) use ($term) {
+                $q->where('name', 'like', "%{$term}%")
+                  ->orWhere('sku', 'like', "%{$term}%")
+                  ->orWhere('slug', 'like', "%{$term}%");
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category')) {
+            $query->whereHas('category', fn ($q) => $q->where('slug', $request->get('category')));
+        }
+
+        // Inventory status filter
+        if ($request->get('inventory_filter') === 'low_stock') {
+            $query->where('stock', '>', 0)->where('stock', '<=', 10);
+        } elseif ($request->get('inventory_filter') === 'out_of_stock') {
+            $query->where('stock', '<=', 0);
+        } elseif ($request->get('inventory_filter') === 'in_stock') {
+            $query->where('stock', '>', 10);
+        }
+
+        $products = $query->latest()->paginate(15)->withQueryString();
+
+        // Calculate platform-wide inventory metrics
+        $totalProducts = Product::count();
+        $totalStock = (int) Product::sum('stock');
+        $availableStock = (int) Product::where('is_active', true)->sum('stock');
+        $totalPurchased = (int) (OrderItem::sum('quantity') ?? 0);
+        $everStocked = $totalStock + $totalPurchased;
+        $lowStockCount = Product::where('stock', '>', 0)->where('stock', '<=', 10)->count();
+        $outOfStockCount = Product::where('stock', '<=', 0)->count();
+        $lowStockProducts = Product::where('stock', '>', 0)->where('stock', '<=', 10)->with('category')->limit(6)->get();
+
+        return view('admin.products.index', compact(
+            'products',
+            'totalProducts',
+            'totalStock',
+            'availableStock',
+            'totalPurchased',
+            'everStocked',
+            'lowStockCount',
+            'outOfStockCount',
+            'lowStockProducts'
+        ));
     }
 
     public function create(): View
     {
         $product = new Product();
+        $product->stock = 50;
+        $product->initial_stock = 50;
+        $product->low_stock_threshold = 10;
         $categories = ProductCategory::orderBy('name')->get();
 
         return view('admin.products.form', compact('product', 'categories'));
@@ -38,12 +87,15 @@ class ProductController extends Controller
             'new_category' => ['nullable', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:products,slug'],
+            'sku' => ['nullable', 'string', 'max:60', 'unique:products,sku'],
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'compare_at_price' => ['nullable', 'numeric', 'min:0'],
             'stock' => ['nullable', 'integer', 'min:0'],
             'stock_quantity' => ['nullable', 'integer', 'min:0'],
+            'initial_stock' => ['nullable', 'integer', 'min:0'],
+            'low_stock_threshold' => ['nullable', 'integer', 'min:0'],
             'image' => ['nullable', 'image', 'max:5120'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
@@ -67,15 +119,27 @@ class ProductController extends Controller
         }
         unset($validated['new_category'], $validated['category_id']);
 
-        $validated['stock'] = (int) $request->input('stock', $request->input('stock_quantity', 0));
+        $stock = (int) $request->input('stock', $request->input('stock_quantity', 50));
+        if ($stock === 0 && ! $request->has('stock') && ! $request->has('stock_quantity')) {
+            $stock = 50;
+        }
+        $validated['stock'] = $stock;
+        $validated['initial_stock'] = (int) $request->input('initial_stock', max(50, $stock));
+        $validated['low_stock_threshold'] = (int) $request->input('low_stock_threshold', 10);
         unset($validated['stock_quantity']);
+
+        // Auto-generate SKU if not provided
+        if (empty($validated['sku'])) {
+            $cat = ! empty($validated['product_category_id']) ? ProductCategory::find($validated['product_category_id']) : null;
+            $validated['sku'] = Product::generateSku($validated['name'], $cat?->name);
+        }
 
         $validated['is_featured'] = $request->boolean('is_featured', false);
         $validated['is_active'] = $request->boolean('is_active', true);
 
         Product::create($validated);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product created.');
+        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
     }
 
     public function edit(Product $product): View
@@ -93,12 +157,15 @@ class ProductController extends Controller
             'new_category' => ['nullable', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:products,slug,' . $product->id],
+            'sku' => ['nullable', 'string', 'max:60', 'unique:products,sku,' . $product->id],
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'compare_at_price' => ['nullable', 'numeric', 'min:0'],
             'stock' => ['nullable', 'integer', 'min:0'],
             'stock_quantity' => ['nullable', 'integer', 'min:0'],
+            'initial_stock' => ['nullable', 'integer', 'min:0'],
+            'low_stock_threshold' => ['nullable', 'integer', 'min:0'],
             'image' => ['nullable', 'image', 'max:5120'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
@@ -122,15 +189,24 @@ class ProductController extends Controller
         }
         unset($validated['new_category'], $validated['category_id']);
 
-        $validated['stock'] = (int) $request->input('stock', $request->input('stock_quantity', $product->stock));
+        $stock = (int) $request->input('stock', $request->input('stock_quantity', $product->stock));
+        $validated['stock'] = $stock;
+        $validated['initial_stock'] = (int) $request->input('initial_stock', max($product->initial_stock ?: 50, $stock));
+        $validated['low_stock_threshold'] = (int) $request->input('low_stock_threshold', $product->low_stock_threshold ?: 10);
         unset($validated['stock_quantity']);
+
+        // Auto-generate SKU if still empty
+        if (empty($validated['sku'])) {
+            $cat = ! empty($validated['product_category_id']) ? ProductCategory::find($validated['product_category_id']) : null;
+            $validated['sku'] = Product::generateSku($validated['name'], $cat?->name, $product->id);
+        }
 
         $validated['is_featured'] = $request->boolean('is_featured', false);
         $validated['is_active'] = $request->boolean('is_active', false);
 
         $product->update($validated);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated.');
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
     }
 
     public function destroy(Product $product): RedirectResponse
@@ -143,23 +219,21 @@ class ProductController extends Controller
     public function destroyAll(): RedirectResponse
     {
         $count = Product::count();
-
         if ($count === 0) {
             return redirect()->route('admin.products.index')->with('info', 'There are no products in the store to delete.');
         }
-
         Product::query()->delete();
 
-        return redirect()->route('admin.products.index')->with('success', "All {$count} store products have been permanently deleted.");
+        return redirect()->route('admin.products.index')->with('success', "Successfully deleted all {$count} store products.");
     }
 
     public function quickStoreCategory(Request $request): JsonResponse
     {
-        $validated = $request->validate([
+        $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
 
-        $name = trim($validated['name']);
+        $name = trim($request->input('name'));
         $category = ProductCategory::firstOrCreate(
             ['name' => $name],
             ['slug' => Str::slug($name)]
@@ -239,24 +313,32 @@ class ProductController extends Controller
 
             $price = isset($item['price']) ? (float) $item['price'] : 0.00;
             $stock = isset($item['stock']) ? (int) $item['stock'] : 50;
+            if ($stock <= 0) {
+                $stock = 50;
+            }
             $image = $item['full_image_url'] ?? $item['image_url'] ?? $item['image'] ?? null;
             $isActive = isset($item['is_active']) ? filter_var($item['is_active'], FILTER_VALIDATE_BOOLEAN) : true;
+
+            $sku = ! empty($item['sku']) ? trim($item['sku']) : Product::generateSku($item['name'], $category->name);
 
             Product::updateOrCreate(
                 ['slug' => $slug],
                 [
                     'product_category_id' => $category->id,
                     'name' => $item['name'],
+                    'sku' => $sku,
                     'price' => $price,
                     'stock' => $stock,
+                    'initial_stock' => $stock,
+                    'low_stock_threshold' => 10,
                     'image' => $image,
                     'is_active' => $isActive,
                 ]
             );
-
             $importedCount++;
         }
 
-        return redirect()->route('admin.products.index')->with('success', "Successfully imported {$importedCount} products into your store catalog!");
+        return redirect()->route('admin.products.index')
+            ->with('success', "Successfully imported {$importedCount} products into your store catalog.");
     }
 }

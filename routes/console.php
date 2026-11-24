@@ -96,13 +96,18 @@ Artisan::command('products:import {file?}', function (?string $file = null) {
 
         $slug = ! empty($item['slug']) ? \Illuminate\Support\Str::slug($item['slug']) : \Illuminate\Support\Str::slug($item['name']);
 
+        $sku = ! empty($item['sku']) ? trim($item['sku']) : \App\Models\Product::generateSku($item['name'], $category->name);
+
         \App\Models\Product::updateOrCreate(
             ['slug' => $slug],
             [
                 'product_category_id' => $category->id,
                 'name' => $item['name'],
+                'sku' => $sku,
                 'price' => isset($item['price']) ? (float) $item['price'] : 0.00,
                 'stock' => isset($item['stock']) ? (int) $item['stock'] : 50,
+                'initial_stock' => isset($item['stock']) ? (int) $item['stock'] : 50,
+                'low_stock_threshold' => 10,
                 'image' => $item['full_image_url'] ?? $item['image_url'] ?? null,
                 'is_active' => true,
             ]
