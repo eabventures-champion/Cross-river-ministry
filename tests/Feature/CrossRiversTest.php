@@ -637,4 +637,47 @@ class CrossRiversTest extends TestCase
         // Clean up
         $product->delete();
     }
+
+    public function test_admin_can_list_and_delete_product_category(): void
+    {
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.com'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('password123'),
+                'is_admin' => true,
+                'is_active' => true,
+                'role' => 'super_admin',
+            ]
+        );
+
+        $category = \App\Models\ProductCategory::create([
+            'name' => 'Temporary Test Category',
+            'slug' => 'temporary-test-category',
+        ]);
+
+        $product = \App\Models\Product::create([
+            'product_category_id' => $category->id,
+            'name' => 'Test Cat Product',
+            'price' => 10.00,
+        ]);
+
+        // 1. List categories endpoint returns JSON list with counts
+        $listResponse = $this->actingAs($admin)->getJson(route('admin.products.categories.list'));
+        $listResponse->assertStatus(200);
+        $listResponse->assertJsonFragment(['name' => 'Temporary Test Category', 'products_count' => 1]);
+
+        // 2. Delete category endpoint unlinks attached product safely
+        $deleteResponse = $this->actingAs($admin)->deleteJson(route('admin.products.categories.destroy', $category));
+        $deleteResponse->assertStatus(200);
+        $deleteResponse->assertJson(['success' => true]);
+
+        // 3. Confirm category deleted from DB and product is unlinked (not deleted)
+        $this->assertDatabaseMissing('product_categories', ['id' => $category->id]);
+        $product->refresh();
+        $this->assertNull($product->product_category_id);
+
+        // Clean up
+        $product->delete();
+    }
 }

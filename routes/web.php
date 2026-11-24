@@ -167,7 +167,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('testimonials', AdminTestimonialController::class);
         Route::delete('products/destroy-all', [AdminProductController::class, 'destroyAll'])->name('products.destroy-all');
         Route::post('products/import', [AdminProductController::class, 'import'])->name('products.import');
+        Route::get('products/categories/list', [AdminProductController::class, 'categoriesList'])->name('products.categories.list');
         Route::post('products/categories/quick-store', [AdminProductController::class, 'quickStoreCategory'])->name('products.categories.quick-store');
+        Route::delete('products/categories/{category}', [AdminProductController::class, 'destroyCategory'])->name('products.categories.destroy');
         Route::resource('products', AdminProductController::class);
 
         // Orders

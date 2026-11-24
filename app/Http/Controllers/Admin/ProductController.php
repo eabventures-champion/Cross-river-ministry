@@ -54,6 +54,7 @@ class ProductController extends Controller
         $lowStockCount = Product::where('stock', '>', 0)->where('stock', '<=', 10)->count();
         $outOfStockCount = Product::where('stock', '<=', 0)->count();
         $lowStockProducts = Product::where('stock', '>', 0)->where('stock', '<=', 10)->with('category')->limit(6)->get();
+        $categories = ProductCategory::withCount('products')->orderBy('name')->get();
 
         return view('admin.products.index', compact(
             'products',
@@ -64,7 +65,8 @@ class ProductController extends Controller
             'everStocked',
             'lowStockCount',
             'outOfStockCount',
-            'lowStockProducts'
+            'lowStockProducts',
+            'categories'
         ));
     }
 
@@ -74,7 +76,7 @@ class ProductController extends Controller
         $product->stock = 50;
         $product->initial_stock = 50;
         $product->low_stock_threshold = 10;
-        $categories = ProductCategory::orderBy('name')->get();
+        $categories = ProductCategory::withCount('products')->orderBy('name')->get();
 
         return view('admin.products.form', compact('product', 'categories'));
     }
@@ -144,7 +146,7 @@ class ProductController extends Controller
 
     public function edit(Product $product): View
     {
-        $categories = ProductCategory::orderBy('name')->get();
+        $categories = ProductCategory::withCount('products')->orderBy('name')->get();
 
         return view('admin.products.form', compact('product', 'categories'));
     }
@@ -245,8 +247,43 @@ class ProductController extends Controller
                 'id' => $category->id,
                 'name' => $category->name,
                 'slug' => $category->slug,
+                'products_count' => $category->products()->count(),
             ],
         ]);
+    }
+
+    public function categoriesList(): JsonResponse
+    {
+        $categories = ProductCategory::withCount('products')->orderBy('name')->get()->map(function ($cat) {
+            return [
+                'id' => $cat->id,
+                'name' => $cat->name,
+                'slug' => $cat->slug,
+                'products_count' => $cat->products_count,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function destroyCategory(ProductCategory $category): JsonResponse|RedirectResponse
+    {
+        $unlinkedCount = $category->products()->count();
+        $name = $category->name;
+        $category->delete();
+
+        if (request()->wantsJson() || request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Category '{$name}' deleted successfully.",
+                'unlinked_products' => $unlinkedCount,
+            ]);
+        }
+
+        return redirect()->back()->with('success', "Category '{$name}' deleted successfully.");
     }
 
     public function import(Request $request): RedirectResponse

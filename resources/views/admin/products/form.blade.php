@@ -17,13 +17,17 @@
               enctype="multipart/form-data"
               x-data="{
                   showImageModal: false,
+                  showCategoryManager: false,
+                  categoryDeleteMessage: '',
+                  categoryDeleteError: '',
+                  deletingCategoryId: null,
                   isNew: {{ $product->exists ? 'false' : 'true' }},
                   name: {{ Js::from(old('name', $product->name ?? '')) }},
                   sku: {{ Js::from(old('sku', $product->sku ?? '')) }},
                   customSku: {{ old('sku') || ($product->exists && $product->sku) ? 'true' : 'false' }},
                   categoryMode: '{{ old('new_category') ? 'input' : 'select' }}',
                   newCategory: '{{ old('new_category', '') }}',
-                  categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name])) }},
+                  categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'products_count' => $c->products_count ?? 0])) }},
                   selectedCategoryId: '{{ old('product_category_id', old('category_id', $product->product_category_id)) }}',
                   savingCategory: false,
                   quickAddMessage: '',
@@ -118,6 +122,44 @@
                       } finally {
                           this.savingCategory = false;
                       }
+                  },
+
+                  async deleteCategory(id, name, count) {
+                      const confirmMsg = count > 0 
+                          ? `Category "${name}" is assigned to ${count} product(s).\n\nDeleting it will unlink these products (they will become uncategorized), but will NOT delete the products.\n\nAre you sure you want to remove this category?`
+                          : `Are you sure you want to remove category "${name}"?`;
+                      if (!confirm(confirmMsg)) return;
+
+                      this.deletingCategoryId = id;
+                      this.categoryDeleteMessage = '';
+                      this.categoryDeleteError = '';
+
+                      try {
+                          const res = await fetch(`{{ url('admin/products/categories') }}/${id}`, {
+                              method: 'DELETE',
+                              headers: {
+                                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                  'Accept': 'application/json',
+                                  'Content-Type': 'application/json'
+                              }
+                          });
+                          const data = await res.json();
+                          if (data.success) {
+                              this.categories = this.categories.filter(c => c.id !== id);
+                              if (String(this.selectedCategoryId) === String(id)) {
+                                  this.selectedCategoryId = '';
+                                  this.onCategoryChange();
+                              }
+                              this.categoryDeleteMessage = `Category "${name}" removed successfully.`;
+                              setTimeout(() => this.categoryDeleteMessage = '', 3500);
+                          } else {
+                              this.categoryDeleteError = data.message || 'Failed to remove category.';
+                          }
+                      } catch (err) {
+                          this.categoryDeleteError = 'An error occurred while deleting category.';
+                      } finally {
+                          this.deletingCategoryId = null;
+                      }
                   }
               }"
               class="bg-white border border-slate-200 rounded-[2px] p-6 space-y-5">
@@ -146,27 +188,39 @@
                 <div>
                     <div class="flex items-center justify-between mb-1.5">
                         <label class="form-label mb-0" for="product_category_id">Product Category</label>
-                        <!-- Fixed single plus icon button -->
-                        <button 
-                            type="button" 
-                            x-show="categoryMode === 'select'"
-                            @click="categoryMode = 'input'; $nextTick(() => $refs.newCatInput.focus())"
-                            class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors"
-                        >
-                            <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                            </svg>
-                            <span>New Category</span>
-                        </button>
-                        <button 
-                            type="button" 
-                            x-show="categoryMode === 'input'" 
-                            x-cloak
-                            @click="categoryMode = 'select'"
-                            class="text-xs font-semibold text-slate-500 hover:text-slate-700 transition-colors"
-                        >
-                            Select Existing
-                        </button>
+                        <div class="flex items-center gap-3">
+                            <button 
+                                type="button" 
+                                @click="showCategoryManager = true"
+                                class="text-xs font-semibold text-slate-500 hover:text-red-600 flex items-center gap-1 transition-colors cursor-pointer"
+                                title="Manage and remove product categories"
+                            >
+                                <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                </svg>
+                                <span>Manage / Remove</span>
+                            </button>
+                            <button 
+                                type="button" 
+                                x-show="categoryMode === 'select'"
+                                @click="categoryMode = 'input'; $nextTick(() => $refs.newCatInput.focus())"
+                                class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors cursor-pointer"
+                            >
+                                <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                                </svg>
+                                <span>New Category</span>
+                            </button>
+                            <button 
+                                type="button" 
+                                x-show="categoryMode === 'input'" 
+                                x-cloak
+                                @click="categoryMode = 'select'"
+                                class="text-xs font-semibold text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
+                            >
+                                Select Existing
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Existing Categories Dropdown Mode -->
@@ -394,6 +448,112 @@
                     </div>
                 </div>
             @endif
+
+            <!-- Manage Product Categories Modal -->
+            <div 
+                x-show="showCategoryManager" 
+                x-cloak
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm"
+                @keydown.escape.window="showCategoryManager = false"
+            >
+                <div 
+                    x-show="showCategoryManager"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    @click.outside="showCategoryManager = false"
+                    class="bg-white rounded-[2px] shadow-2xl max-w-lg w-full overflow-hidden border border-slate-200 flex flex-col"
+                >
+                    <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50/70">
+                        <div class="flex items-center gap-2.5">
+                            <div class="size-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
+                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-base font-semibold text-ink">Manage Categories</h3>
+                                <p class="text-[0.6875rem] text-slate-500">Remove unused categories or unlink products safely.</p>
+                            </div>
+                        </div>
+                        <button 
+                            type="button" 
+                            @click="showCategoryManager = false" 
+                            class="size-8 rounded-[2px] text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 flex items-center justify-center transition-colors cursor-pointer"
+                        >
+                            <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Notification Banners inside modal -->
+                    <div x-show="categoryDeleteMessage" x-cloak class="p-3 bg-green-50 border-b border-green-200 text-xs font-semibold text-green-800 flex items-center gap-2">
+                        <svg class="size-4 text-green-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        <span x-text="categoryDeleteMessage"></span>
+                    </div>
+                    <div x-show="categoryDeleteError" x-cloak class="p-3 bg-red-50 border-b border-red-200 text-xs font-semibold text-red-800 flex items-center gap-2">
+                        <svg class="size-4 text-red-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+                        <span x-text="categoryDeleteError"></span>
+                    </div>
+
+                    <!-- Category Items List -->
+                    <div class="p-4 sm:p-5 max-h-[60vh] overflow-y-auto divide-y divide-slate-100">
+                        <template x-for="cat in categories" :key="cat.id">
+                            <div class="py-3 flex items-center justify-between gap-3 group">
+                                <div class="min-w-0">
+                                    <span class="text-xs font-semibold text-ink block truncate" x-text="cat.name"></span>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span 
+                                            class="text-[0.6875rem] font-medium px-2 py-0.5 rounded-[2px]"
+                                            :class="cat.products_count > 0 ? 'bg-brand-50 text-brand-700 border border-brand-200/80 font-bold' : 'bg-slate-100 text-slate-500'"
+                                            x-text="(cat.products_count ?? 0) + ' product' + ((cat.products_count ?? 0) === 1 ? '' : 's')"
+                                        ></span>
+                                    </div>
+                                </div>
+                                <button 
+                                    type="button" 
+                                    @click="deleteCategory(cat.id, cat.name, cat.products_count ?? 0)"
+                                    :disabled="deletingCategoryId === cat.id"
+                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 rounded-[2px] transition-colors cursor-pointer shrink-0 disabled:opacity-50"
+                                    title="Remove this category"
+                                >
+                                    <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                    </svg>
+                                    <span>Remove</span>
+                                </button>
+                            </div>
+                        </template>
+                        <div x-show="categories.length === 0" class="py-8 text-center text-xs text-slate-400">
+                            No categories found.
+                        </div>
+                    </div>
+
+                    <div class="px-5 py-3 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
+                        <p class="text-[0.6875rem] text-slate-500">
+                            Products in removed categories are safely retained as uncategorized.
+                        </p>
+                        <button 
+                            type="button" 
+                            @click="showCategoryManager = false" 
+                            class="btn btn-secondary btn-sm px-4 text-xs cursor-pointer"
+                        >
+                            Done
+                        </button>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </x-layouts.admin>
