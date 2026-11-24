@@ -15,6 +15,110 @@
         <form action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}"
               method="POST"
               enctype="multipart/form-data"
+              x-data="{
+                  isNew: {{ $product->exists ? 'false' : 'true' }},
+                  name: {{ Js::from(old('name', $product->name ?? '')) }},
+                  sku: {{ Js::from(old('sku', $product->sku ?? '')) }},
+                  customSku: {{ old('sku') || ($product->exists && $product->sku) ? 'true' : 'false' }},
+                  categoryMode: '{{ old('new_category') ? 'input' : 'select' }}',
+                  newCategory: '{{ old('new_category', '') }}',
+                  categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name])) }},
+                  selectedCategoryId: '{{ old('product_category_id', old('category_id', $product->product_category_id)) }}',
+                  savingCategory: false,
+                  quickAddMessage: '',
+
+                  getCategoryName() {
+                      if (this.categoryMode === 'input') {
+                          return this.newCategory.trim();
+                      }
+                      const found = this.categories.find(c => String(c.id) === String(this.selectedCategoryId));
+                      return found ? found.name : '';
+                  },
+
+                  generateSku(name, categoryName) {
+                      if (!name || !name.trim()) return '';
+                      const clean = name.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+                      const words = clean.split(/\s+/).filter(Boolean);
+                      if (words.length === 0) return 'ITEM';
+
+                      let code = 'ITEM';
+                      if (words.length === 1) {
+                          code = words[0].substring(0, 4).toUpperCase();
+                      } else if (words.length === 2) {
+                          code = (words[0].substring(0, 3) + words[1].substring(0, 2)).toUpperCase();
+                      } else {
+                          let acronym = '';
+                          for (let i = 0; i < words.length; i++) {
+                              acronym += words[i][0];
+                          }
+                          code = acronym.substring(0, 5).toUpperCase();
+                      }
+
+                      code = code.replace(/-+$/, '');
+                      if (code.length < 3) {
+                          code = code.padEnd(3, 'X');
+                      }
+
+                      let catCode = '';
+                      const catUpper = (categoryName || '').toUpperCase();
+                      if (catUpper.includes('TEE')) catCode = 'TEE';
+                      else if (catUpper.includes('MUG')) catCode = 'MUG';
+                      else if (catUpper.includes('BOOK')) catCode = 'BOK';
+
+                      return catCode ? `CRM-${catCode}-${code}` : `CRM-${code}`;
+                  },
+
+                  onNameChange() {
+                      if (this.isNew && !this.customSku) {
+                          this.sku = this.generateSku(this.name, this.getCategoryName());
+                      }
+                  },
+
+                  onCategoryChange() {
+                      if (this.isNew && !this.customSku) {
+                          this.sku = this.generateSku(this.name, this.getCategoryName());
+                      }
+                  },
+
+                  autoGenerateSku() {
+                      this.customSku = false;
+                      this.sku = this.generateSku(this.name, this.getCategoryName());
+                  },
+
+                  async quickCreateCategory() {
+                      const catName = this.newCategory.trim();
+                      if (!catName) return;
+                      this.savingCategory = true;
+                      this.quickAddMessage = '';
+                      try {
+                          const res = await fetch('{{ route('admin.products.categories.quick-store') }}', {
+                              method: 'POST',
+                              headers: {
+                                  'Content-Type': 'application/json',
+                                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                  'Accept': 'application/json'
+                              },
+                              body: JSON.stringify({ name: catName })
+                          });
+                          const data = await res.json();
+                          if (data.success && data.category) {
+                              if (!this.categories.some(c => c.id === data.category.id)) {
+                                  this.categories.push(data.category);
+                              }
+                              this.selectedCategoryId = data.category.id;
+                              this.newCategory = '';
+                              this.categoryMode = 'select';
+                              this.quickAddMessage = 'Category created and selected!';
+                              this.onCategoryChange();
+                              setTimeout(() => this.quickAddMessage = '', 3000);
+                          }
+                      } catch (e) {
+                          console.error(e);
+                      } finally {
+                          this.savingCategory = false;
+                      }
+                  }
+              }"
               class="bg-white border border-slate-200 rounded-[2px] p-6 space-y-5">
             @csrf
             @if($product->exists)
@@ -24,66 +128,40 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label class="form-label" for="name">Product Name *</label>
-                    <input type="text" id="name" name="name" required class="form-input" value="{{ old('name', $product->name) }}" placeholder="e.g. Crossing the River Journal">
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        required 
+                        class="form-input" 
+                        x-model="name"
+                        @input="onNameChange()"
+                        value="{{ old('name', $product->name) }}" 
+                        placeholder="e.g. Crossing the River Journal"
+                    >
                     @error('name')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
 
-                <div x-data="{
-                    mode: '{{ old('new_category') ? 'input' : 'select' }}',
-                    newCategory: '{{ old('new_category', '') }}',
-                    categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name])) }},
-                    selectedId: '{{ old('product_category_id', old('category_id', $product->product_category_id)) }}',
-                    saving: false,
-                    quickAddMessage: '',
-                    async quickCreateCategory() {
-                        const name = this.newCategory.trim();
-                        if (!name) return;
-                        this.saving = true;
-                        this.quickAddMessage = '';
-                        try {
-                            const res = await fetch('{{ route('admin.products.categories.quick-store') }}', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Accept': 'application/json'
-                                },
-                                body: JSON.stringify({ name: name })
-                            });
-                            const data = await res.json();
-                            if (data.success && data.category) {
-                                if (!this.categories.some(c => c.id === data.category.id)) {
-                                    this.categories.push(data.category);
-                                }
-                                this.selectedId = data.category.id;
-                                this.newCategory = '';
-                                this.mode = 'select';
-                                this.quickAddMessage = 'Category created and selected!';
-                                setTimeout(() => this.quickAddMessage = '', 3000);
-                            }
-                        } catch (e) {
-                            console.error(e);
-                        } finally {
-                            this.saving = false;
-                        }
-                    }
-                }">
+                <div>
                     <div class="flex items-center justify-between mb-1.5">
                         <label class="form-label mb-0" for="product_category_id">Product Category</label>
+                        <!-- Fixed single plus icon button -->
                         <button 
                             type="button" 
-                            x-show="mode === 'select'"
-                            @click="mode = 'input'; $nextTick(() => $refs.newCatInput.focus())"
+                            x-show="categoryMode === 'select'"
+                            @click="categoryMode = 'input'; $nextTick(() => $refs.newCatInput.focus())"
                             class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors"
                         >
-                            <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-                            <span>+ New Category</span>
+                            <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                            </svg>
+                            <span>New Category</span>
                         </button>
                         <button 
                             type="button" 
-                            x-show="mode === 'input'" 
+                            x-show="categoryMode === 'input'" 
                             x-cloak
-                            @click="mode = 'select'"
+                            @click="categoryMode = 'select'"
                             class="text-xs font-semibold text-slate-500 hover:text-slate-700 transition-colors"
                         >
                             Select Existing
@@ -91,17 +169,17 @@
                     </div>
 
                     <!-- Existing Categories Dropdown Mode -->
-                    <div x-show="mode === 'select'">
+                    <div x-show="categoryMode === 'select'">
                         <select 
                             id="product_category_id" 
                             name="product_category_id" 
                             class="form-input" 
-                            x-model="selectedId"
-                            @change="if ($event.target.value === '__new__') { mode = 'input'; $nextTick(() => $refs.newCatInput.focus()); }"
+                            x-model="selectedCategoryId"
+                            @change="if ($event.target.value === '__new__') { categoryMode = 'input'; $nextTick(() => $refs.newCatInput.focus()); } else { onCategoryChange(); }"
                         >
                             <option value="">Select Category</option>
                             <template x-for="c in categories" :key="c.id">
-                                <option :value="c.id" x-text="c.name" :selected="c.id == selectedId"></option>
+                                <option :value="c.id" x-text="c.name" :selected="String(c.id) === String(selectedCategoryId)"></option>
                             </template>
                             <option value="__new__" class="font-semibold text-brand-600">+ Create New Category...</option>
                         </select>
@@ -109,13 +187,14 @@
                     </div>
 
                     <!-- Dynamic Category Input Mode -->
-                    <div x-show="mode === 'input'" x-cloak class="space-y-2">
+                    <div x-show="categoryMode === 'input'" x-cloak class="space-y-2">
                         <div class="flex items-center gap-2">
                             <input 
                                 type="text" 
                                 x-ref="newCatInput"
                                 name="new_category" 
                                 x-model="newCategory"
+                                @input="onCategoryChange()"
                                 class="form-input flex-grow" 
                                 placeholder="Type new category (e.g. TEES, MUGS, HOODIES)..."
                                 @keydown.enter.prevent="quickCreateCategory()"
@@ -123,12 +202,12 @@
                             <button 
                                 type="button" 
                                 @click="quickCreateCategory()" 
-                                :disabled="saving || !newCategory.trim()"
+                                :disabled="savingCategory || !newCategory.trim()"
                                 class="btn btn-secondary btn-sm shrink-0 px-3 py-2 text-xs"
-                                :class="{'opacity-50 cursor-not-allowed': saving || !newCategory.trim()}"
+                                :class="{'opacity-50 cursor-not-allowed': savingCategory || !newCategory.trim()}"
                             >
-                                <span x-show="!saving">Add</span>
-                                <span x-show="saving" x-cloak>Saving...</span>
+                                <span x-show="!savingCategory">Add</span>
+                                <span x-show="savingCategory" x-cloak>Saving...</span>
                             </button>
                         </div>
                         <p class="text-[0.6875rem] text-slate-500">
@@ -150,9 +229,33 @@
                 </div>
 
                 <div>
-                    <label class="form-label" for="sku">SKU / Item Code</label>
-                    <input type="text" id="sku" name="sku" class="form-input uppercase" value="{{ old('sku', $product->sku) }}" placeholder="e.g. CRM-TEE-YFAW (auto-generated)">
-                    <p class="text-[0.6875rem] text-slate-500 mt-1">Leave empty to auto-generate a unique SKU from product name.</p>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="form-label mb-0" for="sku">SKU / Item Code</label>
+                        <button 
+                            type="button" 
+                            @click="autoGenerateSku()"
+                            class="text-[0.6875rem] font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors"
+                            title="Regenerate SKU from name and category"
+                        >
+                            <svg class="size-3" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                            </svg>
+                            <span>Auto Generate</span>
+                        </button>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="sku" 
+                        name="sku" 
+                        x-model="sku"
+                        @input="customSku = true"
+                        class="form-input uppercase font-mono tracking-wider font-semibold" 
+                        value="{{ old('sku', $product->sku) }}" 
+                        placeholder="e.g. CRM-TEE-YFAW"
+                    >
+                    <p class="text-[0.6875rem] text-slate-500 mt-1">
+                        Auto-generated as you type. You can edit manually or click <strong>Auto Generate</strong> anytime.
+                    </p>
                     @error('sku')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
 
