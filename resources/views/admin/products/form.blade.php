@@ -22,9 +22,12 @@
                 @method('PUT')
             @endif
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Section 1: Basic Information (Product Name & Category) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pb-5 border-b border-slate-100">
                 <div>
-                    <label class="form-label" for="name">Product Name *</label>
+                    <div class="h-6 flex items-center justify-between mb-1.5">
+                        <label class="form-label mb-0" for="name">Product Name *</label>
+                    </div>
                     <input 
                         type="text" 
                         id="name" 
@@ -36,41 +39,43 @@
                         value="{{ old('name', $product->name) }}" 
                         placeholder="e.g. Crossing the River Journal"
                     >
+                    <p class="text-[0.6875rem] text-slate-400 mt-1">Full title of the product as displayed in store.</p>
                     @error('name')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
 
                 <div>
-                    <div class="flex items-center justify-between mb-1.5">
+                    <div class="h-6 flex items-center justify-between mb-1.5">
                         <label class="form-label mb-0" for="product_category_id">Product Category</label>
-                        <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2">
                             <button 
                                 type="button" 
                                 @click="showCategoryManager = true"
-                                class="text-xs font-semibold text-slate-500 hover:text-red-600 flex items-center gap-1 transition-colors cursor-pointer"
+                                class="text-[0.6875rem] font-semibold text-slate-500 hover:text-red-600 inline-flex items-center gap-1 transition-colors cursor-pointer"
                                 title="Manage and remove product categories"
                             >
-                                <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <svg class="size-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                 </svg>
-                                <span>Manage / Remove</span>
+                                <span>Manage</span>
                             </button>
+                            <span class="text-slate-300">|</span>
                             <button 
                                 type="button" 
                                 x-show="categoryMode === 'select'"
                                 @click="categoryMode = 'input'; $nextTick(() => $refs.newCatInput.focus())"
-                                class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors cursor-pointer"
+                                class="text-[0.6875rem] font-semibold text-brand-600 hover:text-brand-800 inline-flex items-center gap-1 transition-colors cursor-pointer"
                             >
-                                <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <svg class="size-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                                 </svg>
-                                <span>New Category</span>
+                                <span>+ New Category</span>
                             </button>
                             <button 
                                 type="button" 
                                 x-show="categoryMode === 'input'" 
                                 x-cloak
                                 @click="categoryMode = 'select'"
-                                class="text-xs font-semibold text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
+                                class="text-[0.6875rem] font-semibold text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
                             >
                                 Select Existing
                             </button>
@@ -87,16 +92,22 @@
                             @change="if ($event.target.value === '__new__') { categoryMode = 'input'; $nextTick(() => $refs.newCatInput.focus()); } else { onCategoryChange(); }"
                         >
                             <option value="">Select Category</option>
-                            <template x-for="c in categories" :key="c.id">
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}" {{ old('product_category_id', $product->product_category_id) == $cat->id ? 'selected' : '' }}>
+                                    {{ $cat->name }}
+                                </option>
+                            @endforeach
+                            <template x-for="c in categories.filter(c => !{{ Js::from($categories->pluck('id')) }}.includes(c.id))" :key="c.id">
                                 <option :value="c.id" x-text="c.name" :selected="String(c.id) === String(selectedCategoryId)"></option>
                             </template>
                             <option value="__new__" class="font-semibold text-brand-600">+ Create New Category...</option>
                         </select>
-                        <p x-show="quickAddMessage" x-cloak class="text-[0.6875rem] text-green-600 mt-1" x-text="quickAddMessage"></p>
+                        <p x-show="!quickAddMessage" class="text-[0.6875rem] text-slate-400 mt-1">Select an existing category or create a new one.</p>
+                        <p x-show="quickAddMessage" x-cloak class="text-[0.6875rem] text-green-600 font-semibold mt-1" x-text="quickAddMessage"></p>
                     </div>
 
                     <!-- Dynamic Category Input Mode -->
-                    <div x-show="categoryMode === 'input'" x-cloak class="space-y-2">
+                    <div x-show="categoryMode === 'input'" x-cloak class="space-y-1">
                         <div class="flex items-center gap-2">
                             <input 
                                 type="text" 
@@ -112,15 +123,15 @@
                                 type="button" 
                                 @click="quickCreateCategory()" 
                                 :disabled="savingCategory || !newCategory.trim()"
-                                class="btn btn-secondary btn-sm shrink-0 px-3 py-2 text-xs"
+                                class="btn btn-secondary btn-sm shrink-0 px-3 py-2 text-xs cursor-pointer"
                                 :class="{'opacity-50 cursor-not-allowed': savingCategory || !newCategory.trim()}"
                             >
                                 <span x-show="!savingCategory">Add</span>
                                 <span x-show="savingCategory" x-cloak>Saving...</span>
                             </button>
                         </div>
-                        <p class="text-[0.6875rem] text-slate-500">
-                            Type a category and click <strong>Add</strong> or submit this form to auto-create and link it.
+                        <p class="text-[0.6875rem] text-slate-400 mt-1">
+                            Type a category name and click <strong>Add</strong> or submit the form.
                         </p>
                     </div>
 
@@ -130,23 +141,39 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Section 2: Pricing & Inventory Controls -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pb-5 border-b border-slate-100">
                 <div>
-                    <label class="form-label" for="price">Price ($ USD) *</label>
-                    <input type="number" step="0.01" id="price" name="price" required class="form-input" value="{{ old('price', $product->price) }}" placeholder="19.99">
+                    <div class="h-6 flex items-center justify-between mb-1.5">
+                        <label class="form-label mb-0" for="price">Price ($ USD) *</label>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 font-semibold text-xs">$</span>
+                        <input 
+                            type="number" 
+                            step="0.01" 
+                            id="price" 
+                            name="price" 
+                            required 
+                            class="form-input pl-7 font-semibold" 
+                            value="{{ old('price', $product->price) }}" 
+                            placeholder="19.99"
+                        >
+                    </div>
+                    <p class="text-[0.6875rem] text-slate-400 mt-1">Standard retail selling price.</p>
                     @error('price')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
 
                 <div>
-                    <div class="flex items-center justify-between mb-1.5">
+                    <div class="h-6 flex items-center justify-between mb-1.5">
                         <label class="form-label mb-0" for="sku">SKU / Item Code</label>
                         <button 
                             type="button" 
                             @click="autoGenerateSku()"
-                            class="text-[0.6875rem] font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors"
+                            class="text-[0.6875rem] font-semibold text-brand-600 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200/80 px-2 py-0.5 rounded-[2px] inline-flex items-center gap-1 transition-colors cursor-pointer"
                             title="Regenerate SKU from name and category"
                         >
-                            <svg class="size-3" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <svg class="size-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                             </svg>
                             <span>Auto Generate</span>
@@ -162,20 +189,33 @@
                         value="{{ old('sku', $product->sku) }}" 
                         placeholder="e.g. CRM-TEE-YFAW"
                     >
-                    <p class="text-[0.6875rem] text-slate-500 mt-1">
-                        Auto-generated as you type. You can edit manually or click <strong>Auto Generate</strong> anytime.
+                    <p class="text-[0.6875rem] text-slate-400 mt-1">
+                        Auto-generated code for inventory tracking.
                     </p>
                     @error('sku')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
 
                 <div>
-                    <label class="form-label" for="stock">Available Stock (Default 50)</label>
-                    <input type="number" id="stock" name="stock" min="0" class="form-input" value="{{ old('stock', old('stock_quantity', $product->stock ?? 50)) }}">
-                    <p class="text-[0.6875rem] text-slate-500 mt-1">
+                    <div class="h-6 flex items-center justify-between mb-1.5">
+                        <label class="form-label mb-0" for="stock">Available Stock</label>
+                        <span class="text-[0.6875rem] font-semibold text-slate-400">Default: 50</span>
+                    </div>
+                    <div class="relative">
+                        <input 
+                            type="number" 
+                            id="stock" 
+                            name="stock" 
+                            min="0" 
+                            class="form-input pr-12 font-semibold" 
+                            value="{{ old('stock', old('stock_quantity', $product->stock ?? 50)) }}"
+                        >
+                        <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400 text-xs font-medium">units</span>
+                    </div>
+                    <p class="text-[0.6875rem] text-slate-400 mt-1">
                         @if($product->exists)
-                            Ever stocked: <strong>{{ $product->ever_stocked }}</strong> | Purchased: <strong>{{ $product->total_purchased }}</strong>
+                            Ever stocked: <strong class="text-slate-600">{{ $product->ever_stocked }}</strong> | Purchased: <strong class="text-purple-600">{{ $product->total_purchased }}</strong>
                         @else
-                            Default is 50 units. Alert triggers when stock &le; 10.
+                            Low-stock alert triggers at &le; 10 units.
                         @endif
                     </p>
                     @error('stock')<p class="form-error">{{ $message }}</p>@enderror
