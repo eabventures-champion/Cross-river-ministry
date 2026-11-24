@@ -582,5 +582,13 @@ class CrossRiversTest extends TestCase
         $this->assertDatabaseHas('product_categories', ['name' => 'TEES']);
         $this->assertDatabaseHas('product_categories', ['name' => 'MUGS']);
         $this->assertGreaterThanOrEqual(100, \App\Models\Product::count());
+
+        $teeProduct = \App\Models\Product::whereHas('category', fn ($q) => $q->where('name', 'TEES'))->first();
+        $this->assertNotNull($teeProduct);
+        $this->assertEquals(24.99, (float) $teeProduct->price);
+
+        $mugProduct = \App\Models\Product::whereHas('category', fn ($q) => $q->where('name', 'MUGS'))->first();
+        $this->assertNotNull($mugProduct);
+        $this->assertEquals(9.99, (float) $mugProduct->price);
     }
 }
