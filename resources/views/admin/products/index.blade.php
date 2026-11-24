@@ -1,5 +1,24 @@
 <x-layouts.admin title="Store Products">
-    <div class="space-y-6" x-data="{ showDeleteAllModal: false, confirmed: false, showImportModal: false }">
+    <div class="space-y-6" x-data="{ 
+        showDeleteAllModal: false, 
+        confirmed: false, 
+        showImportModal: false,
+        viewImageModal: false,
+        previewImage: '',
+        previewTitle: '',
+        previewSku: '',
+        previewCategory: '',
+        previewPrice: '',
+        openImage(img, title, sku, cat, price) {
+            if (!img) return;
+            this.previewImage = img;
+            this.previewTitle = title;
+            this.previewSku = sku;
+            this.previewCategory = cat;
+            this.previewPrice = price;
+            this.viewImageModal = true;
+        }
+    }">
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
@@ -391,13 +410,25 @@
                             <!-- Product Name & Generated Unique SKU -->
                             <td class="p-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="size-11 rounded-[2px] bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
-                                        @if($p->imageUrl())
-                                            <img src="{{ $p->imageUrl() }}" alt="{{ $p->name }}" class="size-full object-cover">
-                                        @else
+                                    @if($p->imageUrl())
+                                        <button 
+                                            type="button"
+                                            @click="openImage('{{ asset($p->imageUrl()) }}', '{{ addslashes($p->name) }}', '{{ $p->sku ?: Product::generateSku($p->name, $p->category?->name, $p->id) }}', '{{ addslashes($p->category->name ?? 'General') }}', '{{ number_format($p->price, 2) }}')"
+                                            class="size-11 rounded-[2px] bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center relative group cursor-pointer hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all shadow-2xs"
+                                            title="Click to view image"
+                                        >
+                                            <img src="{{ asset($p->imageUrl()) }}" alt="{{ $p->name }}" class="size-full object-cover group-hover:scale-110 transition-transform duration-200">
+                                            <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white">
+                                                <svg class="size-4 drop-shadow" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                                                </svg>
+                                            </div>
+                                        </button>
+                                    @else
+                                        <div class="size-11 rounded-[2px] bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
                                             <span class="text-xs font-bold text-slate-400">ITEM</span>
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                     <div class="min-w-0">
                                         <span class="font-semibold text-ink block truncate max-w-xs sm:max-w-md">{{ $p->name }}</span>
                                         <div class="flex items-center gap-1.5 mt-0.5">
@@ -477,5 +508,86 @@
         </div>
 
         {{ $products->links() }}
+
+        <!-- Product Image Preview / Lightbox Modal -->
+        <div 
+            x-show="viewImageModal" 
+            x-cloak
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm"
+            @keydown.escape.window="viewImageModal = false"
+        >
+            <div 
+                x-show="viewImageModal"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-95"
+                @click.outside="viewImageModal = false"
+                class="bg-white rounded-[2px] shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 flex flex-col"
+            >
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 bg-slate-50/70">
+                    <div class="min-w-0 pr-3">
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono text-[0.6875rem] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-[2px] border border-brand-200" x-text="previewSku"></span>
+                            <span class="text-[0.6875rem] font-bold uppercase tracking-wider text-slate-500" x-text="previewCategory"></span>
+                        </div>
+                        <h3 class="font-display text-base font-semibold text-ink truncate mt-1" x-text="previewTitle"></h3>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <span class="font-bold text-sm text-brand-600" x-show="previewPrice" x-text="'$' + previewPrice"></span>
+                        <button 
+                            type="button" 
+                            @click="viewImageModal = false" 
+                            class="size-8 rounded-[2px] text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Close viewer (Esc)"
+                        >
+                            <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Body: Image Display -->
+                <div class="relative bg-slate-900/5 p-4 sm:p-6 flex items-center justify-center min-h-[300px] max-h-[70vh] overflow-hidden">
+                    <img 
+                        :src="previewImage" 
+                        :alt="previewTitle" 
+                        class="max-h-[60vh] max-w-full object-contain rounded-[2px] shadow-md select-none"
+                    >
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="flex items-center justify-between px-5 py-3 border-t border-slate-100 bg-white">
+                    <a 
+                        :href="previewImage" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 hover:text-brand-800 transition-colors"
+                    >
+                        <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                        </svg>
+                        <span>Open Full Resolution</span>
+                    </a>
+                    <button 
+                        type="button" 
+                        @click="viewImageModal = false" 
+                        class="btn btn-secondary btn-sm px-4 text-xs cursor-pointer"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </x-layouts.admin>

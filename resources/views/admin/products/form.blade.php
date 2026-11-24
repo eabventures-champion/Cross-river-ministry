@@ -16,6 +16,7 @@
               method="POST"
               enctype="multipart/form-data"
               x-data="{
+                  showImageModal: false,
                   isNew: {{ $product->exists ? 'false' : 'true' }},
                   name: {{ Js::from(old('name', $product->name ?? '')) }},
                   sku: {{ Js::from(old('sku', $product->sku ?? '')) }},
@@ -283,8 +284,20 @@
                 <label class="form-label">Product Image</label>
                 <div class="flex items-center gap-4 mt-2">
                     @if($product->imageUrl())
-                        <div class="size-16 rounded-[2px] overflow-hidden shrink-0 border border-slate-200">
-                            <img src="{{ $product->imageUrl() }}" alt="{{ $product->name }}" class="size-full object-cover">
+                        <div class="relative group">
+                            <button 
+                                type="button" 
+                                @click="showImageModal = true"
+                                class="size-16 rounded-[2px] overflow-hidden shrink-0 border border-slate-200 block relative cursor-pointer hover:border-brand-500 transition-all shadow-2xs focus:outline-none focus:ring-2 focus:ring-brand-500"
+                                title="Click to view full image"
+                            >
+                                <img src="{{ asset($product->imageUrl()) }}" alt="{{ $product->name }}" class="size-full object-cover group-hover:scale-105 transition-transform duration-200">
+                                <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white">
+                                    <svg class="size-4 drop-shadow" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                                    </svg>
+                                </div>
+                            </button>
                         </div>
                     @endif
                     <input type="file" name="image" accept="image/*" class="text-xs text-slate file:mr-3 file:py-2 file:px-3 file:rounded-[2px] file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-600 hover:file:bg-brand-100 cursor-pointer">
@@ -310,6 +323,77 @@
                     <span>{{ $product->exists ? 'Update Product' : 'Create Product' }}</span>
                 </button>
             </div>
+
+            @if($product->imageUrl())
+                <!-- Product Image Preview / Lightbox Modal -->
+                <div 
+                    x-show="showImageModal" 
+                    x-cloak
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm"
+                    @keydown.escape.window="showImageModal = false"
+                >
+                    <div 
+                        x-show="showImageModal"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                        @click.outside="showImageModal = false"
+                        class="bg-white rounded-[2px] shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 flex flex-col"
+                    >
+                        <div class="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 bg-slate-50/70">
+                            <div class="min-w-0 pr-3">
+                                <h3 class="font-display text-base font-semibold text-ink truncate">{{ $product->name }}</h3>
+                                <p class="text-[0.6875rem] font-mono text-slate-500">{{ $product->sku }}</p>
+                            </div>
+                            <button 
+                                type="button" 
+                                @click="showImageModal = false" 
+                                class="size-8 rounded-[2px] text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 flex items-center justify-center transition-colors cursor-pointer"
+                            >
+                                <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="relative bg-slate-900/5 p-4 sm:p-6 flex items-center justify-center min-h-[300px] max-h-[70vh] overflow-hidden">
+                            <img 
+                                src="{{ asset($product->imageUrl()) }}" 
+                                alt="{{ $product->name }}" 
+                                class="max-h-[60vh] max-w-full object-contain rounded-[2px] shadow-md select-none"
+                            >
+                        </div>
+                        <div class="flex items-center justify-between px-5 py-3 border-t border-slate-100 bg-white">
+                            <a 
+                                href="{{ asset($product->imageUrl()) }}" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 hover:text-brand-800 transition-colors"
+                            >
+                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                </svg>
+                                <span>Open Full Resolution</span>
+                            </a>
+                            <button 
+                                type="button" 
+                                @click="showImageModal = false" 
+                                class="btn btn-secondary btn-sm px-4 text-xs cursor-pointer"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </form>
     </div>
 </x-layouts.admin>
