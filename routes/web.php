@@ -165,6 +165,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('podcasts', AdminPodcastController::class);
         Route::resource('videos', AdminVideoController::class);
         Route::resource('testimonials', AdminTestimonialController::class);
+        Route::delete('products/destroy-all', [AdminProductController::class, 'destroyAll'])->name('products.destroy-all');
+        Route::post('products/import', [AdminProductController::class, 'import'])->name('products.import');
+        Route::post('products/categories/quick-store', [AdminProductController::class, 'quickStoreCategory'])->name('products.categories.quick-store');
         Route::resource('products', AdminProductController::class);
 
         // Orders

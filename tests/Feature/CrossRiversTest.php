@@ -65,9 +65,15 @@ class CrossRiversTest extends TestCase
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
                 'is_admin' => true,
+                'is_active' => true,
                 'role' => 'super_admin',
             ]
         );
+        $admin->update([
+            'is_admin' => true,
+            'is_active' => true,
+            'role' => 'super_admin',
+        ]);
 
         $adminRoutes = [
             route('admin.dashboard'),
@@ -164,9 +170,15 @@ class CrossRiversTest extends TestCase
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
                 'is_admin' => true,
+                'is_active' => true,
                 'role' => 'super_admin',
             ]
         );
+        $admin->update([
+            'is_admin' => true,
+            'is_active' => true,
+            'role' => 'super_admin',
+        ]);
 
         // 1. Can view team list & invite screen
         $response = $this->actingAs($admin)->get(route('admin.team.index'));
@@ -229,9 +241,15 @@ class CrossRiversTest extends TestCase
                 'name' => 'Jane Audrey',
                 'password' => bcrypt('password123'),
                 'is_admin' => true,
+                'is_active' => true,
                 'role' => 'super_admin',
             ]
         );
+        $admin->update([
+            'is_admin' => true,
+            'is_active' => true,
+            'role' => 'super_admin',
+        ]);
 
         $admin->update([
             'two_factor_enabled' => true,
@@ -340,5 +358,229 @@ class CrossRiversTest extends TestCase
 
         $admin->refresh();
         $this->assertTrue(\Illuminate\Support\Facades\Hash::check('newpassword123', $admin->password));
+
+        // 5. Login form now shows updated password
+        $loginPage = $this->get(route('admin.login'));
+        $loginPage->assertStatus(200);
+        $loginPage->assertSee('value="newpassword123"', false);
+    }
+
+    public function test_login_form_displays_updated_credentials_when_changed_in_profile(): void
+    {
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.com'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('password123'),
+                'is_admin' => true,
+                'is_active' => true,
+                'role' => 'super_admin',
+            ]
+        );
+        $admin->update([
+            'is_admin' => true,
+            'is_active' => true,
+            'role' => 'super_admin',
+        ]);
+
+        // Update profile email
+        $newEmail = 'updated.admin@crossriversministries.com';
+        User::where('email', $newEmail)->delete();
+        $updateEmailResponse = $this->actingAs($admin)->put(route('admin.profile.update'), [
+            'name' => 'Jane Audrey',
+            'email' => $newEmail,
+        ]);
+        $updateEmailResponse->assertRedirect(route('admin.profile.edit'));
+
+        // Update password
+        $admin->password = bcrypt('password123');
+        $admin->save();
+
+        $newPassword = 'myNewSecretPass456!';
+        $updatePassResponse = $this->actingAs($admin)->put(route('admin.profile.password'), [
+            'current_password' => 'password123',
+            'password' => $newPassword,
+            'password_confirmation' => $newPassword,
+        ]);
+        $updatePassResponse->assertRedirect(route('admin.profile.edit'));
+        $updatePassResponse->assertSessionHas('success');
+
+        auth()->logout();
+
+        // Check login form
+        $response = $this->get(route('admin.login'));
+        $response->assertStatus(200);
+        $response->assertSee('value="' . $newEmail . '"', false);
+        $response->assertSee('value="' . $newPassword . '"', false);
+
+        // Reset back for subsequent test clean state
+        $admin->refresh();
+        $admin->update([
+            'email' => 'admin@crossriversministries.com',
+            'password' => bcrypt('password123'),
+        ]);
+        \App\Models\Setting::updateOrCreate(
+            ['key' => 'auth.admin_email'],
+            ['group' => 'auth', 'value' => 'admin@crossriversministries.com']
+        );
+        \App\Models\Setting::updateOrCreate(
+            ['key' => 'auth.admin_password'],
+            ['group' => 'auth', 'value' => 'password123']
+        );
+    }
+
+    public function test_admin_can_view_delete_all_products_caution_and_delete_all(): void
+    {
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.com'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('password123'),
+                'is_admin' => true,
+                'is_active' => true,
+                'role' => 'super_admin',
+            ]
+        );
+        $admin->update([
+            'is_admin' => true,
+            'is_active' => true,
+            'role' => 'super_admin',
+        ]);
+
+        // Ensure at least one product exists
+        \App\Models\Product::firstOrCreate(
+            ['slug' => 'test-guide-for-deletion'],
+            [
+                'name' => 'Test Guide for Deletion',
+                'price' => 19.99,
+                'stock' => 10,
+                'is_active' => true,
+            ]
+        );
+
+        $this->assertGreaterThan(0, \App\Models\Product::count());
+
+        // 1. Admin can view products page with "Delete All Products" button and Caution modal
+        $indexResponse = $this->actingAs($admin)->get(route('admin.products.index'));
+        $indexResponse->assertStatus(200);
+        $indexResponse->assertSee('Delete All Products');
+        $indexResponse->assertSee('Caution: Delete All Store Products?');
+        $indexResponse->assertSee('Proceed to Delete All Products');
+
+        // 2. Admin can delete all products
+        $deleteResponse = $this->actingAs($admin)->delete(route('admin.products.destroy-all'));
+        $deleteResponse->assertRedirect(route('admin.products.index'));
+        $deleteResponse->assertSessionHas('success');
+
+        $this->assertEquals(0, \App\Models\Product::count());
+
+        // 3. Deleting again when empty gracefully informs admin
+        $emptyDeleteResponse = $this->actingAs($admin)->delete(route('admin.products.destroy-all'));
+        $emptyDeleteResponse->assertRedirect(route('admin.products.index'));
+        $emptyDeleteResponse->assertSessionHas('info');
+    }
+
+    public function test_admin_can_dynamically_input_new_category_when_creating_product(): void
+    {
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.com'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('password123'),
+                'is_admin' => true,
+                'is_active' => true,
+                'role' => 'super_admin',
+            ]
+        );
+        $admin->update([
+            'is_admin' => true,
+            'is_active' => true,
+            'role' => 'super_admin',
+        ]);
+
+        $customCatName = 'Dynamic Apparel ' . rand(100, 999);
+        $response = $this->actingAs($admin)->post(route('admin.products.store'), [
+            'name' => 'Custom Dynamic Tee ' . rand(100, 999),
+            'new_category' => $customCatName,
+            'price' => 29.99,
+            'stock' => 25,
+            'is_active' => true,
+        ]);
+
+        $response->assertRedirect(route('admin.products.index'));
+        $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('product_categories', [
+            'name' => $customCatName,
+        ]);
+        $createdCat = \App\Models\ProductCategory::where('name', $customCatName)->first();
+        $this->assertNotNull($createdCat);
+
+        $this->assertDatabaseHas('products', [
+            'product_category_id' => $createdCat->id,
+            'price' => 29.99,
+        ]);
+    }
+
+    public function test_admin_can_quick_store_category_via_endpoint(): void
+    {
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.com'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('password123'),
+                'is_admin' => true,
+                'is_active' => true,
+                'role' => 'super_admin',
+            ]
+        );
+        $admin->update([
+            'is_admin' => true,
+            'is_active' => true,
+            'role' => 'super_admin',
+        ]);
+
+        $quickName = 'Quick Category ' . rand(100, 999);
+        $response = $this->actingAs($admin)->postJson(route('admin.products.categories.quick-store'), [
+            'name' => $quickName,
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'category' => [
+                'name' => $quickName,
+            ],
+        ]);
+
+        $this->assertDatabaseHas('product_categories', ['name' => $quickName]);
+    }
+
+    public function test_admin_can_import_products_from_exported_file(): void
+    {
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@crossriversministries.com'],
+            [
+                'name' => 'Jane Audrey',
+                'password' => bcrypt('password123'),
+                'is_admin' => true,
+                'is_active' => true,
+                'role' => 'super_admin',
+            ]
+        );
+        $admin->update([
+            'is_admin' => true,
+            'is_active' => true,
+            'role' => 'super_admin',
+        ]);
+
+        // Post import request
+        $response = $this->actingAs($admin)->post(route('admin.products.import'));
+        $response->assertRedirect(route('admin.products.index'));
+        $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('product_categories', ['name' => 'TEES']);
+        $this->assertDatabaseHas('product_categories', ['name' => 'MUGS']);
+        $this->assertGreaterThanOrEqual(100, \App\Models\Product::count());
     }
 }

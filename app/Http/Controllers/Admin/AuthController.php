@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\AdminResetPasswordMail;
 use App\Mail\TwoFactorCodeMail;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
@@ -25,7 +26,21 @@ class AuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return view('admin.auth.login');
+        $settings = Setting::allCached();
+        $defaultEmail = $settings['auth.admin_email'] ?? null;
+        if (! $defaultEmail) {
+            try {
+                $defaultEmail = User::where('role', 'super_admin')->value('email')
+                    ?? User::where('is_admin', true)->value('email');
+            } catch (\Throwable) {}
+        }
+        $defaultEmail = $defaultEmail ?: 'admin@crossriversministries.com';
+        $defaultPassword = $settings['auth.admin_password'] ?? 'password123';
+
+        return view('admin.auth.login', [
+            'defaultEmail' => $defaultEmail,
+            'defaultPassword' => $defaultPassword,
+        ]);
     }
 
     public function login(Request $request): RedirectResponse
@@ -196,7 +211,19 @@ class AuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return view('admin.auth.forgot-password');
+        $settings = Setting::allCached();
+        $defaultEmail = $settings['auth.admin_email'] ?? null;
+        if (! $defaultEmail) {
+            try {
+                $defaultEmail = User::where('role', 'super_admin')->value('email')
+                    ?? User::where('is_admin', true)->value('email');
+            } catch (\Throwable) {}
+        }
+        $defaultEmail = $defaultEmail ?: 'admin@crossriversministries.com';
+
+        return view('admin.auth.forgot-password', [
+            'defaultEmail' => $defaultEmail,
+        ]);
     }
 
     public function sendResetLinkEmail(Request $request): RedirectResponse
@@ -297,6 +324,17 @@ class AuthController extends Controller
                     'password' => Hash::make($password),
                     'remember_token' => Str::random(60),
                 ])->save();
+
+                if ($user->isAdmin()) {
+                    Setting::updateOrCreate(
+                        ['key' => 'auth.admin_email'],
+                        ['group' => 'auth', 'value' => $inputEmail]
+                    );
+                    Setting::updateOrCreate(
+                        ['key' => 'auth.admin_password'],
+                        ['group' => 'auth', 'value' => $password]
+                    );
+                }
 
                 event(new PasswordReset($user));
             }

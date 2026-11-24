@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -44,6 +45,13 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
+        if ($user->isAdmin()) {
+            Setting::updateOrCreate(
+                ['key' => 'auth.admin_email'],
+                ['group' => 'auth', 'value' => $user->email]
+            );
+        }
+
         return redirect()->route('admin.profile.edit')->with('success', 'Profile information updated successfully.');
     }
 
@@ -54,9 +62,22 @@ class ProfileController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        $request->user()->update([
+        $user = $request->user();
+
+        $user->update([
             'password' => Hash::make($validated['password']),
         ]);
+
+        if ($user->isAdmin()) {
+            Setting::updateOrCreate(
+                ['key' => 'auth.admin_password'],
+                ['group' => 'auth', 'value' => $validated['password']]
+            );
+            Setting::updateOrCreate(
+                ['key' => 'auth.admin_email'],
+                ['group' => 'auth', 'value' => $user->email]
+            );
+        }
 
         return redirect()->route('admin.profile.edit')->with('success', 'Password updated successfully.');
     }

@@ -208,6 +208,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if(session('info'))
+                <div class="mb-4 sm:mb-6 p-3.5 sm:p-4 bg-brand-50 border border-brand-200 text-brand-800 rounded-[2px] text-xs sm:text-sm font-medium">
+                    {{ session('info') }}
+                </div>
+            @endif
             @if(session('error'))
                 <div class="mb-4 sm:mb-6 p-3.5 sm:p-4 bg-red-100 border border-red-200 text-red-800 rounded-[2px] text-xs sm:text-sm font-medium">
                     {{ session('error') }}

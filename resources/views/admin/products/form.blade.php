@@ -28,17 +28,117 @@
                     @error('name')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
 
-                <div>
-                    <label class="form-label" for="category_id">Product Category</label>
-                    <select id="category_id" name="category_id" class="form-input">
-                        <option value="">Select Category</option>
-                        @foreach($categories as $c)
-                            <option value="{{ $c->id }}" {{ old('category_id', $product->category_id) == $c->id ? 'selected' : '' }}>
-                                {{ $c->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                <div x-data="{
+                    mode: '{{ old('new_category') ? 'input' : 'select' }}',
+                    newCategory: '{{ old('new_category', '') }}',
+                    categories: {{ Js::from($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name])) }},
+                    selectedId: '{{ old('product_category_id', old('category_id', $product->product_category_id)) }}',
+                    saving: false,
+                    quickAddMessage: '',
+                    async quickCreateCategory() {
+                        const name = this.newCategory.trim();
+                        if (!name) return;
+                        this.saving = true;
+                        this.quickAddMessage = '';
+                        try {
+                            const res = await fetch('{{ route('admin.products.categories.quick-store') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({ name: name })
+                            });
+                            const data = await res.json();
+                            if (data.success && data.category) {
+                                if (!this.categories.some(c => c.id === data.category.id)) {
+                                    this.categories.push(data.category);
+                                }
+                                this.selectedId = data.category.id;
+                                this.newCategory = '';
+                                this.mode = 'select';
+                                this.quickAddMessage = 'Category created and selected!';
+                                setTimeout(() => this.quickAddMessage = '', 3000);
+                            }
+                        } catch (e) {
+                            console.error(e);
+                        } finally {
+                            this.saving = false;
+                        }
+                    }
+                }">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="form-label mb-0" for="product_category_id">Product Category</label>
+                        <button 
+                            type="button" 
+                            x-show="mode === 'select'"
+                            @click="mode = 'input'; $nextTick(() => $refs.newCatInput.focus())"
+                            class="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors"
+                        >
+                            <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                            <span>+ New Category</span>
+                        </button>
+                        <button 
+                            type="button" 
+                            x-show="mode === 'input'" 
+                            x-cloak
+                            @click="mode = 'select'"
+                            class="text-xs font-semibold text-slate-500 hover:text-slate-700 transition-colors"
+                        >
+                            Select Existing
+                        </button>
+                    </div>
+
+                    <!-- Existing Categories Dropdown Mode -->
+                    <div x-show="mode === 'select'">
+                        <select 
+                            id="product_category_id" 
+                            name="product_category_id" 
+                            class="form-input" 
+                            x-model="selectedId"
+                            @change="if ($event.target.value === '__new__') { mode = 'input'; $nextTick(() => $refs.newCatInput.focus()); }"
+                        >
+                            <option value="">Select Category</option>
+                            <template x-for="c in categories" :key="c.id">
+                                <option :value="c.id" x-text="c.name" :selected="c.id == selectedId"></option>
+                            </template>
+                            <option value="__new__" class="font-semibold text-brand-600">+ Create New Category...</option>
+                        </select>
+                        <p x-show="quickAddMessage" x-cloak class="text-[0.6875rem] text-green-600 mt-1" x-text="quickAddMessage"></p>
+                    </div>
+
+                    <!-- Dynamic Category Input Mode -->
+                    <div x-show="mode === 'input'" x-cloak class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <input 
+                                type="text" 
+                                x-ref="newCatInput"
+                                name="new_category" 
+                                x-model="newCategory"
+                                class="form-input flex-grow" 
+                                placeholder="Type new category (e.g. TEES, MUGS, HOODIES)..."
+                                @keydown.enter.prevent="quickCreateCategory()"
+                            >
+                            <button 
+                                type="button" 
+                                @click="quickCreateCategory()" 
+                                :disabled="saving || !newCategory.trim()"
+                                class="btn btn-secondary btn-sm shrink-0 px-3 py-2 text-xs"
+                                :class="{'opacity-50 cursor-not-allowed': saving || !newCategory.trim()}"
+                            >
+                                <span x-show="!saving">Add</span>
+                                <span x-show="saving" x-cloak>Saving...</span>
+                            </button>
+                        </div>
+                        <p class="text-[0.6875rem] text-slate-500">
+                            Type a category and click <strong>Add</strong> or submit this form to auto-create and link it.
+                        </p>
+                    </div>
+
+                    @error('product_category_id')<p class="form-error">{{ $message }}</p>@enderror
                     @error('category_id')<p class="form-error">{{ $message }}</p>@enderror
+                    @error('new_category')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
             </div>
 
@@ -56,9 +156,9 @@
                 </div>
 
                 <div>
-                    <label class="form-label" for="stock_quantity">Stock Quantity</label>
-                    <input type="number" id="stock_quantity" name="stock_quantity" class="form-input" value="{{ old('stock_quantity', $product->stock_quantity ?? 50) }}">
-                    @error('stock_quantity')<p class="form-error">{{ $message }}</p>@enderror
+                    <label class="form-label" for="stock">Stock Quantity</label>
+                    <input type="number" id="stock" name="stock" class="form-input" value="{{ old('stock', old('stock_quantity', $product->stock ?? 50)) }}">
+                    @error('stock')<p class="form-error">{{ $message }}</p>@enderror
                 </div>
             </div>
 

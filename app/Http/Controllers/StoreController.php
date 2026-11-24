@@ -37,9 +37,13 @@ class StoreController extends Controller
         }
 
         $products = $query->latest()->paginate(12)->withQueryString();
-        $categories = ProductCategory::withCount('products')->get();
+        $categories = ProductCategory::withCount(['products' => fn ($q) => $q->active()])
+            ->having('products_count', '>', 0)
+            ->orderByDesc('products_count')
+            ->get();
+        $totalActiveProducts = Product::active()->count();
 
-        return view('pages.store.index', compact('products', 'categories'));
+        return view('pages.store.index', compact('products', 'categories', 'totalActiveProducts'));
     }
 
     public function show(Product $product): View
